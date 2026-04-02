@@ -1,0 +1,36 @@
+{
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-css-order"
+  ],
+  "tabWidth": 2,
+  "semi": true,
+  "singleQuote": false,
+  "printWidth": 100,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "importOrder": [
+    "^react|^clsx|^vitest|^@(.*)|@(.*)|^lodash-es|^axios|^zustand|^dayjs",
+
+    "^components/layout(.*)|^components/uikit(.*)|^components/form(.*)|^components/shared(.*)",
+
+    "<THIRD_PARTY_MODULES>",
+
+    "^assets/icons|^assets/fonts|^.*\\.svg",
+
+    "^.*\\.css$|^(.*)styles$|assets",
+
+    "^shared/providers(.*)|^shared/contexts(.*)|^shared/api(.*)|contexts|context",
+
+    "hooks|^shared/hooks(.*)|^shared/utils(.*)|^shared/lib(.*)|lib(.*)|lib|(.use*)|^shared/imasks(.*)|reducer|get|utils(.*)",
+
+    "^(.*)constants(.*)|^(.*)enum$|^(.*)config$|^shared/enum|mock",
+
+    "^(.*)interface|^shared/interface(.*)|^(.*)types(.*)|type"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderGroupNamespaceSpecifiers": true,
+  "importOrderCaseInsensitive": true
+}
