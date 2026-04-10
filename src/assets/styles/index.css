@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
+@import "./fonts.css";
+
 @theme {
-  /* Colors - Reflect.app dark theme */
   --color-bg-primary: #030014;
   --color-bg-secondary: #0a0720;
   --color-bg-card: rgba(255, 255, 255, 0.03);
@@ -28,7 +28,6 @@
   --color-status-completed: #7dffa8;
   --color-status-rejected: #ff7b9c;
 
-  /* Typography */
   --font-sans:
     "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
