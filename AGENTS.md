@@ -5,6 +5,7 @@ Rules for automated agents in this repository.
 ## General
 
 - Communication in Russian.
+- All comments on the code are in Russian.
 - Make minimal, targeted changes.
 - Do not touch files unrelated to the task.
 - Do not change existing formatting/lint rules without a request.
@@ -15,7 +16,7 @@ Rules for automated agents in this repository.
 ## Code Style
 
 - Use the `yarn` package manager.
-- Use `jsdoc` to describe components, helpers, hooks, types and their properties and other complex logic in Russian.
+- Use `jsdoc` to describe components, helpers, hooks, types and their properties.
 - TypeScript without `any`.
 - Simple types only; no overloads or complex compositions.
 - Clear names, short functions, readability over abstractions.

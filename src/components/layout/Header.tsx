@@ -2,13 +2,13 @@ import { RiLogoutBoxLine, RiMoonLine, RiSunLine, RiUserLine } from "@remixicon/r
 import { Link, useNavigate } from "react-router-dom";
 
 import { useAuthStore } from "shared/stores/authStore";
-import { useThemeStore } from "shared/stores/themeStore";
+import { useThemeStore } from "shared/stores/theme";
 
 import ligaBoard from "assets/liga-board.png";
 
 export function Header() {
   const { isAuthenticated, user, logout } = useAuthStore();
-  const { isDark, toggle } = useThemeStore();
+  const { theme, toggleTheme } = useThemeStore();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -70,11 +70,15 @@ export function Header() {
           )}
 
           <button
-            onClick={toggle}
+            onClick={toggleTheme}
             className="text-text-secondary hover:bg-bg-card-hover hover:text-text-primary rounded-lg p-2 transition-colors"
-            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           >
-            {isDark ? <RiSunLine className="h-4 w-4" /> : <RiMoonLine className="h-4 w-4" />}
+            {theme === "dark" ? (
+              <RiSunLine className="h-4 w-4" />
+            ) : (
+              <RiMoonLine className="h-4 w-4" />
+            )}
           </button>
         </nav>
       </div>

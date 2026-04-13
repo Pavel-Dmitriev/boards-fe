@@ -16,7 +16,7 @@ export function BoardsListPage() {
     <div className="mx-auto max-w-7xl px-6 py-12">
       <div className="mb-12 text-center">
         <h1 className="mb-3 text-4xl font-medium">
-          <span className="gradient-text">Доски обратной связи</span>
+          <span className="">Доски обратной связи</span>
         </h1>
         <p className="text-text-secondary text-lg">Выберите доску для просмотра и обсуждения</p>
       </div>

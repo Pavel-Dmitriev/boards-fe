@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), svgr()],
   server: {
     open: "/",
-    port: 3000,
+    port: 3001,
     host: "0.0.0.0",
     warmup: {
       clientFiles: ["./src/index.css"],
