@@ -17,18 +17,15 @@ export function Header() {
   };
 
   return (
-    <header className="header-glass">
+    <header className="header">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2">
           <img src={ligaBoard} alt="Доска" className="max-w-10" loading="lazy" />
-          <span className="text-lg font-medium tracking-tight">Liga Board</span>
+          <span className="text-lg font-medium">Liga Board</span>
         </Link>
 
         <nav className="flex items-center gap-6">
-          <Link
-            to="/"
-            className="text-text-secondary hover:text-text-primary text-sm transition-colors"
-          >
+          <Link to="/" className="text-neutral/70 text-sm transition-colors dark:hover:text-white">
             Доски
           </Link>
 
@@ -36,20 +33,20 @@ export function Header() {
             <>
               <Link
                 to="/create-card"
-                className="text-text-secondary hover:text-text-primary text-sm transition-colors"
+                className="text-neutral/70 text-sm transition-colors hover:text-white"
               >
                 Создать карточку
               </Link>
               <Link
                 to="/profile"
-                className="text-text-secondary hover:text-text-primary flex items-center gap-1 text-sm transition-colors"
+                className="text-neutral/70 flex items-center gap-1 text-sm transition-colors hover:text-white"
               >
                 <RiUserLine className="h-4 w-4" />
                 {user?.name}
               </Link>
               <button
                 onClick={handleLogout}
-                className="text-text-secondary hover:text-text-primary flex items-center gap-1 text-sm transition-colors"
+                className="text-neutral/70 flex items-center gap-1 text-sm transition-colors hover:text-white"
               >
                 <RiLogoutBoxLine className="h-4 w-4" />
                 Выход
@@ -59,7 +56,7 @@ export function Header() {
             <>
               <Link
                 to="/login"
-                className="text-text-secondary hover:text-text-primary text-sm transition-colors"
+                className="text-neutral/70 text-sm transition-colors hover:text-white"
               >
                 Войти
               </Link>
@@ -71,7 +68,7 @@ export function Header() {
 
           <button
             onClick={toggleTheme}
-            className="text-text-secondary hover:bg-bg-card-hover hover:text-text-primary rounded-lg p-2 transition-colors"
+            className="text-neutral/70 hover:bg-bg-card-hover rounded-lg p-2 transition-colors hover:text-white"
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           >
             {theme === "dark" ? (

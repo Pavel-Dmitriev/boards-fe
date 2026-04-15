@@ -12,14 +12,14 @@ export function RegisterPage() {
 
         <form className="space-y-4">
           <div>
-            <label htmlFor="name" className="text-text-secondary mb-2 block text-sm">
+            <label htmlFor="name" className="text-neutral/70 mb-2 block text-sm">
               Имя
             </label>
             <input id="name" type="text" placeholder="Ваше имя" className="input-glass w-full" />
           </div>
 
           <div>
-            <label htmlFor="email" className="text-text-secondary mb-2 block text-sm">
+            <label htmlFor="email" className="text-neutral/70 mb-2 block text-sm">
               Email
             </label>
             <input
@@ -31,7 +31,7 @@ export function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="text-text-secondary mb-2 block text-sm">
+            <label htmlFor="password" className="text-neutral/70 mb-2 block text-sm">
               Пароль
             </label>
             <input
@@ -47,7 +47,7 @@ export function RegisterPage() {
           </button>
         </form>
 
-        <p className="text-text-secondary mt-6 text-center text-sm">
+        <p className="text-neutral/70 mt-6 text-center text-sm">
           Уже есть аккаунт?{" "}
           <Link to="/login" className="text-accent-light hover:underline">
             Войти

@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router";
 
-import { Layout } from "components/layout/Layout";
+import { Frame } from "components/layout/Frame";
 
 import { ProtectedRoute } from "components/ProtectedRoute";
 import { BoardDetailPage } from "pages/BoardDetailPage";
@@ -18,7 +18,7 @@ const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 export const router = createBrowserRouter([
   {
-    element: <Layout />,
+    element: <Frame />,
     errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <BoardsListPage /> },

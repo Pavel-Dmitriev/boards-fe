@@ -12,7 +12,7 @@ export function LoginPage() {
 
         <form className="space-y-4">
           <div>
-            <label htmlFor="email" className="text-text-secondary mb-2 block text-sm">
+            <label htmlFor="email" className="text-neutral/70 mb-2 block text-sm">
               Email
             </label>
             <input
@@ -24,7 +24,7 @@ export function LoginPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="text-text-secondary mb-2 block text-sm">
+            <label htmlFor="password" className="text-neutral/70 mb-2 block text-sm">
               Пароль
             </label>
             <input
@@ -40,7 +40,7 @@ export function LoginPage() {
           </button>
         </form>
 
-        <p className="text-text-secondary mt-6 text-center text-sm">
+        <p className="text-neutral/70 mt-6 text-center text-sm">
           Нет аккаунта?{" "}
           <Link to="/register" className="text-accent-light hover:underline">
             Зарегистрироваться

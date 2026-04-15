@@ -18,7 +18,7 @@ export function BoardsListPage() {
         <h1 className="mb-3 text-4xl font-medium">
           <span className="">Доски обратной связи</span>
         </h1>
-        <p className="text-text-secondary text-lg">Выберите доску для просмотра и обсуждения</p>
+        <p className="text-neutral/70 text-lg">Выберите доску для просмотра и обсуждения</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -29,7 +29,7 @@ export function BoardsListPage() {
             className="card-hover rounded-card border-border bg-bg-card hover:border-border-hover block border p-6 transition-all"
           >
             <h2 className="mb-2 text-xl font-medium">{board.title}</h2>
-            <p className="text-text-secondary mb-4 text-sm">{board.description}</p>
+            <p className="text-neutral/70 mb-4 text-sm">{board.description}</p>
             <span className="badge-gradient text-xs">{board.cards} карточек</span>
           </Link>
         ))}
