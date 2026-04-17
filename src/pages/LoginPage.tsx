@@ -1,4 +1,7 @@
+import { RiAccountBox2Line } from "@remixicon/react";
 import { Link } from "react-router-dom";
+
+import { Button } from "components/ui/Button";
 
 export function LoginPage() {
   return (
@@ -35,9 +38,42 @@ export function LoginPage() {
             />
           </div>
 
-          <button type="submit" className="btn-gradient w-full">
-            Войти
-          </button>
+          <div>
+            <Button type="submit" className="btn-primary" size="sm">
+              Первый
+            </Button>
+            <Button type="submit" className="btn-primary" size="md">
+              Второй
+            </Button>
+            <Button type="submit" className="btn-primary" size="lg">
+              Третий
+            </Button>
+          </div>
+
+          <div className="grid gap-y-3">
+            <Button type="submit" className="btn-primary" leftIcon={<RiAccountBox2Line />}>
+              primary
+            </Button>
+
+            <Button type="submit" className="btn-secondary" rightIcon={<RiAccountBox2Line />}>
+              secondary
+            </Button>
+            <Button type="submit" className="btn-outline">
+              outline
+            </Button>
+            <Button type="submit" className="btn-ghost">
+              ghost
+            </Button>
+            <Button type="submit" className="btn-danger">
+              danger
+            </Button>
+            <Button type="submit" className="btn-primary" isLoading>
+              isLoading
+            </Button>
+            <Button type="submit" className="btn-primary" disabled>
+              disabled
+            </Button>
+          </div>
         </form>
 
         <p className="text-neutral/70 mt-6 text-center text-sm">

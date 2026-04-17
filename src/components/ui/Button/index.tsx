@@ -3,8 +3,6 @@ import { forwardRef } from "react";
 
 import { twMerge } from "tailwind-merge";
 
-import { KIND_CLASSES, SIZE_CLASSES } from "./constants";
-
 import type { ButtonProps } from "./interface";
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -12,7 +10,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     {
       type = "button",
       className,
-      kind = "primary",
       size = "md",
       isLoading = false,
       leftIcon,
@@ -30,12 +27,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={twMerge(
           clsx(
             "btn",
-            KIND_CLASSES[kind],
-            SIZE_CLASSES[size],
-            isLoading && "btn-loading",
-            disabled && "btn-disabled",
+            {
+              "px-3 py-1.5 text-sm": size === "sm",
+              "px-4 py-2 text-base": size === "md",
+              "px-6 py-3 text-lg": size === "lg",
+              "btn-loading": isLoading,
+              "btn-disabled": disabled,
+            },
+            className,
           ),
-          className,
         )}
         disabled={disabled || isLoading}
         {...props}

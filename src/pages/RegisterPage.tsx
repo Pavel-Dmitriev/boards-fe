@@ -42,7 +42,7 @@ export function RegisterPage() {
             />
           </div>
 
-          <button type="submit" className="btn-gradient w-full">
+          <button type="submit" className="btn-primary w-full">
             Зарегистрироваться
           </button>
         </form>

@@ -60,7 +60,10 @@ export function Header() {
               >
                 Войти
               </Link>
-              <Link to="/register" className="btn-gradient text-sm">
+              <Link
+                to="/register"
+                className="btn btn-primary hover:text-primary! px-4 py-2 text-sm"
+              >
                 Регистрация
               </Link>
             </>

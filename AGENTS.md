@@ -16,7 +16,8 @@ Rules for automated agents in this repository.
 ## Code Style
 
 - Use the `yarn` package manager.
-- Use `jsdoc` to describe components, helpers, hooks, types and their properties.
+- Use `jsdoc` to describe components, helpers, hooks, types and their properties
+- For styles, use tailwindCSS version 4+. If you write styles in a separate file, use the `@apply` directive.
 - TypeScript without `any`.
 - Simple types only; no overloads or complex compositions.
 - Clear names, short functions, readability over abstractions.

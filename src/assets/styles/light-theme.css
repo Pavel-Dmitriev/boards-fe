@@ -1,7 +1,7 @@
 /* Стили светлой темы */
-.light {
-  --color-primary: #ffffff;
-  --color-secondary: #f8fafc;
+@utility light {
+  --color-primary: #000;
+  --color-secondary: #030014;
 
   --color-bg-card: rgba(0, 0, 0, 0.02);
   --color-bg-card-hover: rgba(0, 0, 0, 0.04);
