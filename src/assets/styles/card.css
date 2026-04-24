@@ -1,0 +1,4 @@
+/* Карточка */
+@utility card {
+  @apply p-6 rounded-card bg-bg-card border border-border hover:border-border-hover hover:-translate-y-0.5 hover:shadow-[0_8px_32px] shadow-purple-400/20 transition-all ease-[cubic-bezier(0.6,0.6,0.1)];
+}

@@ -1,0 +1,7 @@
+/* Текст с градиентом */
+@utility gradient-text {
+  @apply bg-clip-text 
+  bg-[linear-gradient(90deg,rgb(113,47,255)_0.01%,rgb(168,85,247)_50%,rgb(59,130,246)_100%)]
+  dark:bg-[linear-gradient(90deg,rgb(213,156,255)_0.01%,rgb(186,156,255)_50%,rgb(156,178,255)_100%)];
+  -webkit-text-fill-color: transparent;
+}

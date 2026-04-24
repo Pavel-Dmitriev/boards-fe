@@ -2,6 +2,11 @@
 
 @import "./fonts.css";
 @import "./button.css";
+@import "./card.css";
+@import "./gradient-text.css";
+@import "./badge.css";
+@import "./input.css";
+@import "./blob.css";
 @import "./light-theme.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -9,14 +14,12 @@
 @theme {
   --color-primary: #ffffff;
   --color-secondary: #f8fafc;
-  /* Проверить нужно ли это, убрать если не нужно */
-  --color-bg-card: rgba(255, 255, 255, 0.03);
-  --color-bg-card-hover: rgba(255, 255, 255, 0.06);
-  --color-bg-input: rgba(255, 255, 255, 0.05);
-
   --color-neutral: #efedfd;
-
   --color-selection: #9382ff80;
+
+  --color-bg-card: --alpha(var(--color-white) / 3%);
+  --color-bg-card-hover: --alpha(var(--color-white) / 6%);
+  --color-bg-input: --alpha(var(--color-white) / 5%);
 
   --color-accent: #712fff;
   --color-accent-light: #9382ff;
@@ -24,22 +27,19 @@
   --color-accent-gradient-mid: #ba9cff;
   --color-accent-gradient-end: #9cb2ff;
 
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-hover: rgba(255, 255, 255, 0.15);
-  --color-border-focus: rgba(147, 130, 255, 0.5);
-
-  --color-status-new: #9cb2ff;
-  --color-status-progress: #ba9cff;
-  --color-status-completed: #7dffa8;
-  --color-status-rejected: #ff7b9c;
+  --color-border: --alpha(var(--color-white) / 8%);
+  --color-border-hover: --alpha(var(--color-white) / 15%);
+  --color-border-focus: #9382ff80;
 
   --font-sans:
     "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Border radius */
-  --radius-card: 12px;
-  --radius-button: 8px;
-  --radius-pill: 999px;
+  --radius-card: 0.75rem;
+  --radius-button: 0.5rem;
+
+  --scrollbar-width: 0.45rem;
+  --scrollbar-thumb: --alpha(var(--color-neutral-100) / 15%);
+  --scrollbar-thumb-hover: --alpha(var(--color-neutral-100) / 25%);
 }
 
 html {
@@ -72,15 +72,20 @@ a {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  @apply w-1.25;
+  width: var(--scrollbar-width);
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-bg-input hover:bg-white/10;
+  border-radius: 9999px;
+  background-color: var(--scrollbar-thumb);
+
+  &:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
 }
 
 /* Focus */
@@ -88,142 +93,6 @@ a {
   @apply focus:outline-none focus-visible:outline-2 focus-visible:outline-border-focus focus-visible:outline-offset-2;
 }
 
-/* Glassmorphism utility */
-.glass {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.glass-strong {
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-/* Card hover effect */
-.card-hover {
-  transition: all 0.3s cubic-bezier(0.6, 0.6, 0, 1);
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(113, 47, 255, 0.12);
-}
-
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(90.01deg, #e59cff 0.01%, #ba9cff 50.01%, #9cb2ff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Badge pill with gradient border */
-.badge-gradient {
-  display: inline-flex;
-  position: relative;
-  align-items: center;
-  box-shadow: inset 0 -7px 11px rgba(164, 143, 255, 0.12);
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.03);
-  padding: 4px 12px;
-}
-
-.badge-gradient::after {
-  position: absolute;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    90.01deg,
-    rgba(229, 156, 255, 0.24) 0.01%,
-    rgba(186, 156, 255, 0.24) 50.01%,
-    rgba(156, 178, 255, 0.24) 100%
-  );
-  padding: 1px;
-  pointer-events: none;
-  content: "";
-}
-
-/* Input styles */
-.input-glass {
-  transition: all 0.2s ease;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-button);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 10px 14px;
-  color: var(--color-primary);
-  font-size: 14px;
-  line-height: 20px;
-}
-
-.input-glass::placeholder {
-  color: var(--color-text-neutral/40);
-}
-
-.input-glass:focus {
-  box-shadow: 0 0 0 3px rgba(147, 130, 255, 0.15);
-  border-color: var(--color-border-focus);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-/* Background gradient blobs */
-.blob {
-  position: absolute;
-  opacity: 0.4;
-  filter: blur(80px);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.blob-purple {
-  background: radial-gradient(circle, rgba(113, 47, 255, 0.3) 0%, transparent 70%);
-}
-
-.blob-blue {
-  background: radial-gradient(circle, rgba(156, 178, 255, 0.2) 0%, transparent 70%);
-}
-
-.blob-pink {
-  background: radial-gradient(circle, rgba(229, 156, 255, 0.2) 0%, transparent 70%);
-}
-
-/* Status badges */
-.status-new {
-  border: 1px solid rgba(156, 178, 255, 0.2);
-  background: rgba(156, 178, 255, 0.1);
-  color: var(--color-status-new);
-}
-
-.status-progress {
-  border: 1px solid rgba(186, 156, 255, 0.2);
-  background: rgba(186, 156, 255, 0.1);
-  color: var(--color-status-progress);
-}
-
-.status-completed {
-  border: 1px solid rgba(125, 255, 168, 0.2);
-  background: rgba(125, 255, 168, 0.1);
-  color: var(--color-status-completed);
-}
-
-.status-rejected {
-  border: 1px solid rgba(255, 123, 156, 0.2);
-  background: rgba(255, 123, 156, 0.1);
-  color: var(--color-status-rejected);
-}
-
-/* Header styles */
 .header {
   @apply fixed top-0 right-0 left-0 z-50 backdrop-blur-lg
   

@@ -1,0 +1,10 @@
+@utility input-glass {
+  @apply transition-all border bg-black/4 border-black/1 rounded-button py-2.5 px-3.5 text-sm text-primary placeholder:text-neutral/40
+dark:border-white/8 dark:bg-white/5
+  
+  focus:shadow-[0_0_0_3px_rgba(113,47,255,0.1)] focus:bg-white/1
+  
+focus:border-border-focus
+focus:dark:bg-white/6
+dark:focus:shadow-[0_0_0_3px_rgba(147,130,255,0.15)];
+}

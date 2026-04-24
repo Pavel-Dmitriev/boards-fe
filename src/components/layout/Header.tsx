@@ -71,7 +71,7 @@ export function Header() {
 
           <button
             onClick={toggleTheme}
-            className="text-neutral/70 hover:bg-bg-card-hover rounded-lg p-2 transition-colors hover:text-white"
+            className="text-neutral/70 hover:bg-bg-card-hover hover:text-neutral cursor-pointer rounded-lg p-2 transition-colors"
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           >
             {theme === "dark" ? (
