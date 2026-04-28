@@ -1,4 +1,4 @@
-import type { ThemeType } from "shared/types/theme";
+import type { ThemeType } from "shared/types/ThemeType";
 
 export interface IThemeState {
   theme: ThemeType;

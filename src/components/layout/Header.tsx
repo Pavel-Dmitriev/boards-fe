@@ -1,7 +1,7 @@
 import { RiLogoutBoxLine, RiMoonLine, RiSunLine, RiUserLine } from "@remixicon/react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useAuthStore } from "shared/stores/authStore";
+import { useAuthStore } from "shared/stores/auth";
 import { useThemeStore } from "shared/stores/theme";
 
 import ligaBoard from "assets/liga-board.png";

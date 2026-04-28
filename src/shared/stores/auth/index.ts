@@ -1,18 +1,9 @@
 import { create } from "zustand";
 
-import type { User } from "../types";
+import type { IAuthStore } from "./interface";
+import type { IUser } from "shared/interfaces";
 
-interface AuthState {
-  user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
-  login: (user: User, token: string) => void;
-  register: (user: User, token: string) => void;
-  logout: () => void;
-  initialize: () => void;
-}
-
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<IAuthStore>((set) => ({
   user: null,
   token: null,
   isAuthenticated: false,
@@ -23,7 +14,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     if (token && userStr) {
       set({
         token,
-        user: JSON.parse(userStr),
+        user: JSON.parse(userStr) as IUser,
         isAuthenticated: true,
       });
     }

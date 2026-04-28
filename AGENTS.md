@@ -22,5 +22,5 @@ Rules for automated agents in this repository.
 - Simple types only; no overloads or complex compositions.
 - Clear names, short functions, readability over abstractions.
 - Use `clsx` when classes are stored in a variable.
-- Use `function` declarations for handlers.
+- Use `function` declarations for components.
 - Follow SOLID.
