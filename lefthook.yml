@@ -1,31 +1,25 @@
 pre-commit:
   parallel: false
+  stage_fixed: true
   commands:
     format:
       priority: 1
-      run: yarn prettier --ignore-unknown --log-level error {staged_files} && git add {staged_files}
-      fail_text: '💅 Ошибка форматирования!'
+      run: yarn -s prettier --ignore-unknown --log-level error --write {staged_files}
+      fail_text: "❌ format failed"
 
     lint:
       priority: 2
-      run: node ./lint-staged.mjs
-      fail_text: '🚨 ESLint нашел ошибки в измененных файлах!'
-      skip_after_fail: true
+      glob: "*.{js,jsx,ts,tsx}"
+      run: yarn -s eslint --cache --fix --no-warn-ignored {staged_files}
+      fail_text: "❌ lint failed"
 
-    build-check:
+    build:
       priority: 3
-      run: yarn build-check
-      fail_text: '🛑 Ошибки сборки!'
-      skip_after_fail: true
-
-    update-index:
-      priority: 4
-      run: git update-index --again
-      skip_if: git diff --cached --quiet
-      skip_fail: true
+      run: yarn -s build
+      fail_text: "❌ build failed"
 
 commit-msg:
   commands:
     check-msg:
-      run: yarn commitlint --edit {1}
-      fail_text: '⛔ Неверный формат коммита!'
+      run: yarn -s commitlint --edit {1} --quiet
+      fail_text: "❌ commit message invalid"
