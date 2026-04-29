@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "shared/stores/auth";
 import { useThemeStore } from "shared/stores/theme";
 
-import ligaBoard from "assets/liga-board.png";
+import ligaBoard from "assets/liga-board.avif";
 
 export function Header() {
   const { isAuthenticated, user, logout } = useAuthStore();
