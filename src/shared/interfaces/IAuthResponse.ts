@@ -1,6 +1,8 @@
-import type { IUser } from "../interfaces";
+import type { IProfile } from "../interfaces";
 
 export interface IAuthResponse {
-  user: IUser;
+  /** Пользователь */
+  user: IProfile;
+  /** Токен */
   token: string;
 }

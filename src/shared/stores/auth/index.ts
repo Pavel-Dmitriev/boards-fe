@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 import type { IAuthStore } from "./interface";
-import type { IUser } from "shared/interfaces";
+import type { IProfile } from "shared/interfaces";
 
 export const useAuthStore = create<IAuthStore>((set) => ({
   user: null,
@@ -14,7 +14,7 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     if (token && userStr) {
       set({
         token,
-        user: JSON.parse(userStr) as IUser,
+        user: JSON.parse(userStr) as IProfile,
         isAuthenticated: true,
       });
     }

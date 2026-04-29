@@ -1,11 +1,11 @@
-import type { IUser } from "shared/interfaces";
+import type { IProfile } from "shared/interfaces";
 
 export interface IAuthStore {
-  user: IUser | null;
+  user: IProfile | null;
   token: string | null;
   isAuthenticated: boolean;
-  login: (user: IUser, token: string) => void;
-  register: (user: IUser, token: string) => void;
+  login: (user: IProfile, token: string) => void;
+  register: (user: IProfile, token: string) => void;
   logout: () => void;
   initialize: () => void;
 }
