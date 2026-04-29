@@ -6,9 +6,12 @@ import { useThemeStore } from "shared/stores/theme";
 
 import ligaBoard from "assets/liga-board.avif";
 
+import { useIsDark } from "shared/hooks";
+
 export function Header() {
   const { isAuthenticated, user, logout } = useAuthStore();
-  const { theme, toggleTheme } = useThemeStore();
+  const { toggleTheme } = useThemeStore();
+  const isDark = useIsDark();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -72,13 +75,9 @@ export function Header() {
           <button
             onClick={toggleTheme}
             className="text-neutral/70 hover:bg-bg-card-hover hover:text-neutral cursor-pointer rounded-lg p-2 transition-colors"
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
           >
-            {theme === "dark" ? (
-              <RiSunLine className="h-4 w-4" />
-            ) : (
-              <RiMoonLine className="h-4 w-4" />
-            )}
+            {isDark ? <RiSunLine className="h-4 w-4" /> : <RiMoonLine className="h-4 w-4" />}
           </button>
         </nav>
       </div>

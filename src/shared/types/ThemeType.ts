@@ -1,2 +1,5 @@
-/** Тип темы */
-export type ThemeType = "light" | "dark";
+/** Тема */
+export enum ThemeType {
+  Light = "light",
+  Dark = "dark",
+}
