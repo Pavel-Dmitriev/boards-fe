@@ -9,13 +9,13 @@ import svgr from "vite-plugin-svgr";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), svgr(), babel({ presets: [reactCompilerPreset()] })] as any[],
+  plugins: [react(), tailwindcss(), svgr(), babel({ presets: [reactCompilerPreset()] })],
   server: {
     open: "/",
     port: 3001,
     host: "0.0.0.0",
     warmup: {
-      clientFiles: ["./src/index.css"],
+      clientFiles: ["./src/assets/styles/index.css"],
     },
   },
   css: {
