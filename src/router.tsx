@@ -3,14 +3,17 @@ import { createBrowserRouter } from "react-router";
 
 import { Frame } from "components/layout/Frame";
 
+import {
+  BoardCreatePage,
+  BoardDetailPage,
+  BoardListPage,
+  CardDetailPage,
+  CreateCardPage,
+  LoginPage,
+  ProfilePage,
+  RegisterPage,
+} from "./pages";
 import { ProtectedRoute } from "components/ProtectedRoute";
-import { BoardDetailPage } from "pages/BoardDetailPage";
-import { BoardsListPage } from "pages/BoardsListPage";
-import { CardDetailPage } from "pages/CardDetailPage";
-import { CreateCardPage } from "pages/CreateCardPage";
-import { LoginPage } from "pages/LoginPage";
-import { ProfilePage } from "pages/ProfilePage";
-import { RegisterPage } from "pages/RegisterPage";
 
 const NoAccess = lazy(() => import("./pages/NoAccess"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -21,13 +24,18 @@ export const router = createBrowserRouter([
     element: <Frame />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/", element: <BoardsListPage /> },
+      { path: "/", element: <BoardListPage /> },
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
       { path: "/board/:id", element: <BoardDetailPage /> },
+      { path: "/board/create", element: <BoardCreatePage /> },
+      { path: "/board/update", element: <BoardCreatePage /> },
+      { path: "/rooms/:id", element: <div>Rooms</div> },
+      { path: "/rooms/create", element: <div>Rooms</div> },
+      { path: "/rooms/update", element: <div>Rooms</div> },
       { path: "/card/:id", element: <CardDetailPage /> },
       {
-        path: "/create-card",
+        path: "/card/create",
         element: (
           <ProtectedRoute>
             <CreateCardPage />

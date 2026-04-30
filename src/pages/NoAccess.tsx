@@ -5,5 +5,4 @@ function NoAccess() {
     </div>
   );
 }
-
 export default NoAccess;

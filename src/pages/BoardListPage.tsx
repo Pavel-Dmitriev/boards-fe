@@ -11,7 +11,7 @@ const mockBoards = [
   { id: "3", title: "Новые функции", description: "Предложения новых возможностей", cards: 24 },
 ];
 
-export function BoardsListPage() {
+export function BoardListPage() {
   const navigate = useNavigate();
 
   /** Открыть доску по id  */
