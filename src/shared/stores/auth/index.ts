@@ -1,40 +1,78 @@
+import axios from "axios";
+import { toast } from "sonner";
 import { create } from "zustand";
 
-import type { IAuthStore } from "./interface";
-import type { IProfile } from "shared/interfaces";
+import { setAccessToken } from "shared/api";
+import { auth } from "shared/api/auth";
 
-export const useAuthStore = create<IAuthStore>((set) => ({
+import { getMessageError } from "shared/utils";
+
+import type { IAction, IState } from "./interface";
+import type { IAuthResponse } from "shared/interfaces";
+
+export const API_URL = (import.meta.env.VITE_API_URL as string) || "http://localhost:3000/api/v1";
+
+export const useAuthStore = create<IState & IAction>((set) => ({
   user: null,
-  token: null,
   isAuthenticated: false,
+  isLoading: false,
 
-  initialize: () => {
-    const token = localStorage.getItem("token");
-    const userStr = localStorage.getItem("user");
-    if (token && userStr) {
-      set({
-        token,
-        user: JSON.parse(userStr) as IProfile,
-        isAuthenticated: true,
-      });
+  login: async (email, password) => {
+    try {
+      const data = await auth.login(email, password).then((res) => res?.data);
+      const { user, accessToken, refreshToken } = data ?? {};
+
+      setAccessToken(accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      set({ user, isAuthenticated: true });
+    } catch (error) {
+      toast.error(getMessageError(error));
     }
   },
 
-  login: (user, token) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
-    set({ user, token, isAuthenticated: true });
+  register: async (name, email, password) => {
+    try {
+      const data = await auth.register(name, email, password).then((res) => res?.data);
+      const { user, accessToken, refreshToken } = data ?? {};
+
+      setAccessToken(accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      set({ user, isAuthenticated: true });
+    } catch (error) {
+      toast.error(getMessageError(error));
+    }
   },
 
-  register: (user, token) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
-    set({ user, token, isAuthenticated: true });
+  logout: async () => {
+    await auth.logout();
+    setAccessToken(null);
+    localStorage.removeItem("refreshToken");
+    set({ user: null, isAuthenticated: false });
   },
 
-  logout: () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    set({ user: null, token: null, isAuthenticated: false });
+  checkAuth: async () => {
+    set({ isLoading: true });
+    try {
+      // Запрашиваем через чистый axios чтобы не словить interceptors.
+      const data = await axios
+        .get<IAuthResponse>(`${API_URL}/users/refresh`, {
+          withCredentials: true,
+        })
+        .then((res) => res?.data);
+
+      const { user, accessToken, refreshToken } = data ?? {};
+
+      setAccessToken(accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      set({ user, isAuthenticated: true });
+    } catch (error) {
+      setAccessToken(null);
+      localStorage.removeItem("refreshToken");
+      set({ user: null, isAuthenticated: false });
+
+      toast.error(getMessageError(error));
+    } finally {
+      set({ isLoading: false });
+    }
   },
 }));
