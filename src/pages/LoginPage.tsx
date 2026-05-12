@@ -1,9 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import AuthForm from "components/AuthForm";
 import { BlobGradient } from "components/ui";
+import { useAuthStore } from "shared/stores/auth";
 
 export function LoginPage() {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  if (isAuthenticated) return <Navigate to="/" />;
+
   return (
     <div className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden">
       <BlobGradient />

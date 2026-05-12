@@ -1,6 +1,9 @@
-import type { AuthKind } from "./enum";
-
-export interface IAuthForm {
-  /** Вид авторизации - вход|регистрация */
-  type?: `${AuthKind}`;
+/** Данные формы авторизации */
+export interface IFormData {
+  /** Имя пользователя */
+  name: string;
+  /** Почта */
+  email: string;
+  /** Пароль */
+  password: string;
 }

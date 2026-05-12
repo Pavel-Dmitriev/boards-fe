@@ -1,7 +1,7 @@
-/** Вид авторизации */
-export enum AuthKind {
+/** Путь авторизации */
+export enum AuthPath {
   /** Регистрация */
-  SignUp = "signUp",
+  Register = "register",
   /** Вход */
-  SignIn = "signIn",
+  Login = "login",
 }

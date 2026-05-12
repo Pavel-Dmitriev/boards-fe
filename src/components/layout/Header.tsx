@@ -1,6 +1,7 @@
 import { RiLogoutBoxLine, RiMoonLine, RiSunLine, RiUserLine } from "@remixicon/react";
 import { Link, useNavigate } from "react-router-dom";
 
+import { Spinner } from "components/ui";
 import { useAuthStore } from "shared/stores/auth";
 import { useThemeStore } from "shared/stores/theme";
 
@@ -9,7 +10,7 @@ import ligaBoard from "assets/liga-board.avif";
 import { useIsDark } from "shared/hooks";
 
 export function Header() {
-  const { isAuthenticated, user, logout } = useAuthStore();
+  const { isAuthenticated, user, logout, isLoading } = useAuthStore();
   const { toggleTheme } = useThemeStore();
   const isDark = useIsDark();
   const navigate = useNavigate();
@@ -28,47 +29,56 @@ export function Header() {
         </Link>
 
         <nav className="flex items-center gap-6">
-          <Link to="/" className="text-neutral/70 text-sm transition-colors dark:hover:text-white">
-            Доски
-          </Link>
-
-          {isAuthenticated ? (
-            <>
-              <Link
-                to="/create-card"
-                className="text-neutral/70 text-sm transition-colors hover:text-white"
-              >
-                Создать карточку
-              </Link>
-              <Link
-                to="/profile"
-                className="text-neutral/70 flex items-center gap-1 text-sm transition-colors hover:text-white"
-              >
-                <RiUserLine className="h-4 w-4" />
-                {user?.name}
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="text-neutral/70 flex items-center gap-1 text-sm transition-colors hover:text-white"
-              >
-                <RiLogoutBoxLine className="h-4 w-4" />
-                Выход
-              </button>
-            </>
+          {isLoading ? (
+            <Spinner size="sm" />
           ) : (
             <>
               <Link
-                to="/login"
-                className="text-neutral/70 text-sm transition-colors hover:text-white"
+                to="/"
+                className="text-neutral/70 text-sm transition-colors dark:hover:text-white"
               >
-                Войти
+                Доски
               </Link>
-              <Link
-                to="/register"
-                className="btn btn-primary hover:text-primary! px-4 py-2 text-sm"
-              >
-                Регистрация
-              </Link>
+
+              {isAuthenticated ? (
+                <>
+                  <Link
+                    to="/create-card"
+                    className="text-neutral/70 text-sm transition-colors hover:text-white"
+                  >
+                    Создать карточку
+                  </Link>
+                  <Link
+                    to="/profile"
+                    className="text-neutral/70 flex items-center gap-1 text-sm transition-colors hover:text-white"
+                  >
+                    <RiUserLine className="h-4 w-4" />
+                    {user?.name}
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="text-neutral/70 flex items-center gap-1 text-sm transition-colors hover:text-white"
+                  >
+                    <RiLogoutBoxLine className="h-4 w-4" />
+                    Выход
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="text-neutral/70 text-sm transition-colors hover:text-white"
+                  >
+                    Войти
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="btn btn-primary hover:text-primary! px-4 py-2 text-sm"
+                  >
+                    Регистрация
+                  </Link>
+                </>
+              )}
             </>
           )}
 

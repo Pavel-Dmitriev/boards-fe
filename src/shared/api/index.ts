@@ -85,11 +85,12 @@ api.interceptors.response.use(
         }
 
         const data = await axios
-          .get<IAuthResponse>(
-            `${(import.meta.env.VITE_API_URL as string) || "http://localhost:3000/api/v1"}/users/refresh`,
+          .post<IAuthResponse>(
+            `${(import.meta.env.VITE_API_URL as string) || "http://localhost:3000/api/v1"}/users/refresh-token`,
+            { refreshToken },
             { withCredentials: true },
           )
-          .then((res) => res?.data);
+          .then((res) => res?.data?.data);
 
         originalRequest.headers.Authorization = `Bearer ${data?.accessToken}`;
 

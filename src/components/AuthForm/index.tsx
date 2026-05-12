@@ -1,31 +1,32 @@
-import { type SyntheticEvent, useState } from "react";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
 
 import { Button } from "components/ui";
 import { useAuthStore } from "shared/stores/auth";
 
-import { AuthKind } from "./enum";
+import { AuthPath } from "./enum";
 
-import type { IAuthForm } from "./interface";
+import type { IFormData } from "./interface";
 
-function AuthForm({ type = AuthKind.SignIn }: IAuthForm) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+function AuthForm() {
+  const { register, handleSubmit } = useForm<IFormData>();
+  const location = useLocation();
+  const { login, register: registerUser } = useAuthStore();
 
-  const login = useAuthStore((state) => state.login);
-  const register = useAuthStore((state) => state.register);
+  const isRegisterPage = location.pathname.slice(1) === AuthPath.Register;
 
-  const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    return type === AuthKind.SignUp
-      ? await register(name, email, password)
-      : await login(email, password);
+  const onSubmit: SubmitHandler<IFormData> = async (data) => {
+    if (isRegisterPage) {
+      await registerUser(data.name ?? "", data.email, data.password);
+    } else {
+      await login(data.email, data.password);
+    }
   };
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
-      {type === AuthKind.SignUp && (
+    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+      {isRegisterPage && (
         <div>
           <label htmlFor="name" className="text-neutral/70 mb-2 block text-sm">
             Имя
@@ -33,10 +34,8 @@ function AuthForm({ type = AuthKind.SignIn }: IAuthForm) {
           <input
             id="name"
             type="text"
-            placeholder="Ваше имя"
             className="input-glass w-full"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            {...register("name", { required: true })}
           />
         </div>
       )}
@@ -49,8 +48,7 @@ function AuthForm({ type = AuthKind.SignIn }: IAuthForm) {
           id="email"
           type="email"
           className="input-glass w-full"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register("email", { required: true })}
         />
       </div>
 
@@ -62,13 +60,12 @@ function AuthForm({ type = AuthKind.SignIn }: IAuthForm) {
           id="password"
           type="password"
           className="input-glass w-full"
-          value={password}
-          onChange={(e) => setPassword(e?.target?.value)}
+          {...register("password", { required: true })}
         />
       </div>
 
       <Button type="submit" className="btn-primary mt-2 w-full">
-        {type === AuthKind.SignUp ? "Зарегистрироваться" : "Войти"}
+        {isRegisterPage ? "Зарегистрироваться" : "Войти"}
       </Button>
     </form>
   );

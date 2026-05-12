@@ -1,9 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import AuthForm from "components/AuthForm";
 import { BlobGradient } from "components/ui";
+import { useAuthStore } from "shared/stores/auth";
 
 export function RegisterPage() {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  if (isAuthenticated) return <Navigate to="/" />;
+
   return (
     <div className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden">
       <BlobGradient />
@@ -11,7 +16,7 @@ export function RegisterPage() {
       <div className="rounded-card border-border bg-bg-card relative z-10 w-full max-w-md border p-8 backdrop-blur-xl">
         <h1 className="mb-6 text-center text-2xl font-medium">Регистрация</h1>
 
-        <AuthForm type="signUp" />
+        <AuthForm />
 
         <p className="text-neutral/70 mt-6 text-center text-sm">
           Уже есть аккаунт?{" "}
