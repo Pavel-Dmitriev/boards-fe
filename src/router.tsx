@@ -24,16 +24,72 @@ export const router = createBrowserRouter([
     element: <Frame />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/", element: <BoardListPage /> },
+      {
+        path: "/",
+        element: (
+          <ProtectedRoute>
+            <BoardListPage />
+          </ProtectedRoute>
+        ),
+      },
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
-      { path: "/board/:id", element: <BoardDetailPage /> },
-      { path: "/board/create", element: <BoardCreatePage /> },
-      { path: "/board/update", element: <BoardCreatePage /> },
-      { path: "/rooms/:id", element: <div>Rooms</div> },
-      { path: "/rooms/create", element: <div>Rooms</div> },
-      { path: "/rooms/update", element: <div>Rooms</div> },
-      { path: "/card/:id", element: <CardDetailPage /> },
+      {
+        path: "/board/:id",
+        element: (
+          <ProtectedRoute>
+            <BoardDetailPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/board/create",
+        element: (
+          <ProtectedRoute>
+            <BoardCreatePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/board/update",
+        element: (
+          <ProtectedRoute>
+            <BoardCreatePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/rooms/:id",
+        element: (
+          <ProtectedRoute>
+            <div>Rooms</div>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/rooms/create",
+        element: (
+          <ProtectedRoute>
+            <div>Rooms</div>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/rooms/update",
+        element: (
+          <ProtectedRoute>
+            <div>Rooms</div>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/card/:id",
+        element: (
+          <ProtectedRoute>
+            <CardDetailPage />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "/card/create",
         element: (

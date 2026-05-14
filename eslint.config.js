@@ -47,7 +47,10 @@ export default [
       ...reactHooks.configs.recommended.rules,
       /** Выключение ошибки мемоизация из за недостатка параметров зависимостей хуков, так как это же уже подсвечивается через react-hooks/exhaustive-deps */
       "react-hooks/preserve-manual-memoization": ["off"],
-      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true, allowVariableExport: true },
+      ],
       "react-hooks/refs": ["warn"],
       // Импорт
       "no-restricted-imports": ["error", { patterns: [{ group: ["**/../../*"] }] }], // Запрещает глубокую вложенность (2+ уровня ../)

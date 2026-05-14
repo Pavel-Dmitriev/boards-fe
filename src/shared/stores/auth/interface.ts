@@ -1,11 +1,21 @@
 import type { IProfile } from "shared/interfaces";
 
-export interface IAuthStore {
+export interface IState {
+  /** Пользователь */
   user: IProfile | null;
-  token: string | null;
+  /** Флаг авторизации */
   isAuthenticated: boolean;
-  login: (user: IProfile, token: string) => void;
-  register: (user: IProfile, token: string) => void;
-  logout: () => void;
-  initialize: () => void;
+  /** Флаг загрузки */
+  isLoading: boolean;
+}
+
+export interface IAction {
+  /** Вход */
+  login: (email: string, password: string) => Promise<void>;
+  /** Регистрация */
+  register: (name: string, email: string, password: string) => Promise<void>;
+  /** Выход */
+  logout: () => Promise<void>;
+  /** Проверка авторизации (обновление access token по refresh token) */
+  checkAuth: () => Promise<void>;
 }
