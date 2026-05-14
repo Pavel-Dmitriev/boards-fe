@@ -21,6 +21,7 @@ Drop hedging: «возможно стоит отметить», «следует
 - Do not add new dependencies unless necessary.
 - When the task is fully completed, add a reminder at the end of the answer: "Задача закрыта. Если следующая несвязанная — открой новый чат."
 - Write short. Drop filler, pleasantries, hedging. Fragments OK. Signal over politeness.
+- Use safe destructuring: validate data before accessing properties, use optional chaining and nullish coalescing when destructuring API responses.
 
 ## Code Style
 

@@ -11,7 +11,7 @@
   "trailingComma": "all",
   "bracketSpacing": true,
   "importOrder": [
-    "^react|^clsx|^vitest|^@(.*)|@(.*)|^lodash-es|^axios|^zustand|^dayjs",
+    "^react|^clsx|^vitest|^@(.*)|@(.*)|^lodash-es|^axios|^zustand|^dayjs|sonner",
 
     "^components/layout(.*)|^components/uikit(.*)|^components/form(.*)|^components/shared(.*)",
 
