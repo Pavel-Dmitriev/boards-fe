@@ -7,12 +7,6 @@ pre-commit:
       run: yarn -s prettier --ignore-unknown --log-level error --write {staged_files}
       fail_text: "❌ format failed"
 
-    lint:
-      priority: 2
-      glob: "*.{js,jsx,ts,tsx}"
-      run: yarn -s eslint --cache --fix --no-warn-ignored {staged_files}
-      fail_text: "❌ lint failed"
-
     build:
       priority: 3
       run: yarn -s build

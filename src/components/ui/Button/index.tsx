@@ -7,6 +7,7 @@ import type { ButtonProps } from "./interface";
 export function Button(props: ButtonProps) {
   const {
     type = "button",
+    kind = "primary",
     className,
     size = "md",
     isLoading = false,
@@ -30,6 +31,7 @@ export function Button(props: ButtonProps) {
             "btn-loading": isLoading,
             "btn-disabled": disabled,
           },
+          `btn-${kind}`,
           className,
         ),
       )}

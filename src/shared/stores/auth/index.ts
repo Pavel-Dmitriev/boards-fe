@@ -7,10 +7,10 @@ import { auth } from "shared/api/auth";
 
 import { getMessageError } from "shared/utils";
 
+import { API_URL } from "shared/constants";
+
 import type { IAction, IState } from "./interface";
 import type { IAuthResponse } from "shared/interfaces";
-
-export const API_URL = (import.meta.env.VITE_API_URL as string) || "http://localhost:3000/api/v1";
 
 export const useAuthStore = create<IState & IAction>((set) => {
   return {

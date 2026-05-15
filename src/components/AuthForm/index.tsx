@@ -64,7 +64,7 @@ function AuthForm() {
         />
       </div>
 
-      <Button type="submit" className="btn-primary mt-2 w-full">
+      <Button type="submit" className="mt-2 w-full">
         {isRegisterPage ? "Зарегистрироваться" : "Войти"}
       </Button>
     </form>

@@ -7,6 +7,8 @@ export interface IProfile {
   email: string;
   /** Имя пользователя */
   name: string;
+  /** Дата регистрации */
+  createdAt: string;
   /** Комнаты пользователя */
   rooms: IRoom[];
 }

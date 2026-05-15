@@ -3,6 +3,8 @@ import type { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 import { StatusCode } from "shared/enum/StatusCode";
 
+import { API_URL } from "shared/constants";
+
 import type { QueueItemType } from "./types";
 import type { IAuthResponse } from "shared/interfaces";
 
@@ -15,7 +17,7 @@ export const setAccessToken = (token: string | null) => {
 };
 
 export const api = axios.create({
-  baseURL: (import.meta.env.VITE_API_URL as string) || "http://localhost:3000/api/v1",
+  baseURL: API_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -86,7 +88,7 @@ api.interceptors.response.use(
 
         const data = await axios
           .post<IAuthResponse>(
-            `${(import.meta.env.VITE_API_URL as string) || "http://localhost:3000/api/v1"}/users/refresh-token`,
+            `${API_URL}/users/refresh-token`,
             { refreshToken },
             { withCredentials: true },
           )
