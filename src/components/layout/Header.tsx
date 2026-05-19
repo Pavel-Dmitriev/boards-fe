@@ -23,7 +23,7 @@ export function Header() {
   return (
     <header className="header">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/rooms" className="flex items-center gap-2">
           <img src={ligaBoard} alt="Доска" className="max-w-10" loading="lazy" />
           <span className="text-lg font-medium">Liga Board</span>
         </Link>
@@ -34,10 +34,10 @@ export function Header() {
           ) : (
             <>
               <Link
-                to="/"
+                to="/rooms"
                 className="text-neutral/70 text-sm transition-colors dark:hover:text-white"
               >
-                Доски
+                Комнаты
               </Link>
 
               {isAuthenticated ? (

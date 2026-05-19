@@ -7,7 +7,7 @@ import { useAuthStore } from "shared/stores/auth";
 export function LoginPage() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
-  if (isAuthenticated) return <Navigate to="/" />;
+  if (isAuthenticated) return <Navigate to="/rooms" />;
 
   return (
     <div className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden">

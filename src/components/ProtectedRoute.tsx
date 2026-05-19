@@ -16,7 +16,7 @@ export function ProtectedRoute({ children }: IProtectedRoute) {
     const isAuthPage = ["/login", "/register"].includes(location.pathname);
 
     if (isAuthPage && isAuthenticated) {
-      navigate("/");
+      navigate("/rooms");
       return;
     }
 

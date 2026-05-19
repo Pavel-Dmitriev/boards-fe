@@ -6,12 +6,14 @@ import { Frame } from "components/layout/Frame";
 import {
   BoardCreatePage,
   BoardDetailPage,
-  BoardListPage,
   CardDetailPage,
   CreateCardPage,
   LoginPage,
   ProfilePage,
   RegisterPage,
+  RoomsDetailPage,
+  RoomsFormPage,
+  RoomsListPage,
 } from "./pages";
 import { ProtectedRoute } from "components/ProtectedRoute";
 
@@ -24,16 +26,33 @@ export const router = createBrowserRouter([
     element: <Frame />,
     errorElement: <ErrorPage />,
     children: [
+      { path: "/login", element: <LoginPage /> },
+      { path: "/register", element: <RegisterPage /> },
       {
-        path: "/",
+        path: "/rooms",
         element: (
           <ProtectedRoute>
-            <BoardListPage />
+            <RoomsListPage />
           </ProtectedRoute>
         ),
       },
-      { path: "/login", element: <LoginPage /> },
-      { path: "/register", element: <RegisterPage /> },
+      {
+        path: "/rooms/:id",
+        element: (
+          <ProtectedRoute>
+            <RoomsDetailPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/rooms/create",
+        element: (
+          <ProtectedRoute>
+            <RoomsFormPage />
+          </ProtectedRoute>
+        ),
+      },
+
       {
         path: "/board/:id",
         element: (
@@ -55,30 +74,6 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <BoardCreatePage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/rooms/:id",
-        element: (
-          <ProtectedRoute>
-            <div>Rooms</div>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/rooms/create",
-        element: (
-          <ProtectedRoute>
-            <div>Rooms</div>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/rooms/update",
-        element: (
-          <ProtectedRoute>
-            <div>Rooms</div>
           </ProtectedRoute>
         ),
       },

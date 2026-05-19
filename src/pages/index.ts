@@ -6,6 +6,9 @@ import { CreateCardPage } from "./CreateCardPage";
 import { LoginPage } from "./LoginPage";
 import { ProfilePage } from "./ProfilePage";
 import { RegisterPage } from "./RegisterPage";
+import { RoomsDetailPage } from "./RoomsDetailPage";
+import { RoomsFormPage } from "./RoomsFormPage";
+import { RoomsListPage } from "./RoomsListPage";
 
 export {
   BoardDetailPage,
@@ -16,4 +19,7 @@ export {
   LoginPage,
   ProfilePage,
   RegisterPage,
+  RoomsListPage,
+  RoomsDetailPage,
+  RoomsFormPage,
 };
