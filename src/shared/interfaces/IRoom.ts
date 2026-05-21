@@ -1,4 +1,4 @@
-import type { ICard } from "./ICard";
+import type { IBoard } from "./IBoard";
 
 /** Интерфейс комнаты */
 export interface IRoom {
@@ -10,11 +10,11 @@ export interface IRoom {
   /** Статус комнаты */
   status: string;
   /** Тип комнаты */
-  type: string;
+  type: "public" | "private";
   /** Идентификатор владельца комнаты */
   ownerId: string;
-  /** Карточки комнаты */
-  cards: ICard[];
+  /** Доски */
+  boards: IBoard[];
   /** Дата создания */
   createdAt: string;
   /** Дата обновления */
