@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 
 import { Button } from "components/ui";
+import { useUsersStore } from "shared/stores";
 import { useAuthStore } from "shared/stores/auth";
 
 import { AuthPath } from "./enum";
@@ -13,6 +14,7 @@ function AuthForm() {
   const { register, handleSubmit } = useForm<IFormData>();
   const location = useLocation();
   const { login, register: registerUser } = useAuthStore();
+  const getProfile = useUsersStore((state) => state.getProfile);
 
   const isRegisterPage = location.pathname.slice(1) === AuthPath.Register;
 
@@ -22,6 +24,7 @@ function AuthForm() {
     } else {
       await login(data.email, data.password);
     }
+    await getProfile();
   };
 
   return (

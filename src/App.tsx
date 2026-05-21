@@ -4,14 +4,20 @@ import { Toaster } from "sonner";
 
 import { router } from "./router";
 import { Spinner } from "components/ui";
+import { useUsersStore } from "shared/stores";
 import { useAuthStore } from "shared/stores/auth";
 
 export function App() {
   const checkAuth = useAuthStore((state) => state.checkAuth);
+  const getProfile = useUsersStore((state) => state.getProfile);
   const isLoading = useAuthStore((state) => state.isLoading);
 
   useEffect(() => {
-    checkAuth();
+    checkAuth().then(() => {
+      if (useAuthStore.getState().isAuthenticated) {
+        getProfile();
+      }
+    });
   }, [checkAuth]);
 
   if (isLoading) {
