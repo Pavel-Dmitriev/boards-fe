@@ -24,4 +24,6 @@ export interface ICard {
   created_at: string;
   /** Дата обновления */
   updated_at: string;
+  /** Является участником комнаты */
+  isMember: boolean;
 }

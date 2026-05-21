@@ -1,4 +1,4 @@
-import type { IRoom } from "./IRoom";
+import type { ICard } from "./ICard";
 
 export interface IProfile {
   /** Идентификатор */
@@ -9,6 +9,6 @@ export interface IProfile {
   name: string;
   /** Дата регистрации */
   createdAt: string;
-  /** Комнаты пользователя */
-  rooms: IRoom[];
+  /** Карточки пользователя */
+  cards: ICard[];
 }

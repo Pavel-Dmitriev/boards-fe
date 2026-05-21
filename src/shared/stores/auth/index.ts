@@ -29,6 +29,7 @@ export const useAuthStore = create<IState & IAction>((set) => {
         set({ user, isAuthenticated: true });
       } catch (error) {
         toast.error(getMessageError(error));
+        throw error;
       }
     },
 

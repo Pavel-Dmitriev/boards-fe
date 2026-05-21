@@ -7,7 +7,7 @@ export function Frame() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="relative flex-1 pt-16">
+      <main className="mx-auto w-full max-w-7xl px-6 pt-22 pb-12">
         <Outlet />
       </main>
       <Footer />

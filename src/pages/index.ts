@@ -4,11 +4,10 @@ import { BoardListPage } from "./BoardListPage";
 import { CardDetailPage } from "./CardDetailPage";
 import { CreateCardPage } from "./CreateCardPage";
 import { LoginPage } from "./LoginPage";
+import { MyCardsPage } from "./MyCardsPage";
 import { ProfilePage } from "./ProfilePage";
 import { RegisterPage } from "./RegisterPage";
-import { RoomsDetailPage } from "./RoomsDetailPage";
-import { RoomsFormPage } from "./RoomsFormPage";
-import { RoomsListPage } from "./RoomsListPage";
+import { RoomsDetailPage, RoomsFormPage, RoomsListPage } from "./Rooms";
 
 export {
   BoardDetailPage,
@@ -17,6 +16,7 @@ export {
   CreateCardPage,
   CardDetailPage,
   LoginPage,
+  MyCardsPage,
   ProfilePage,
   RegisterPage,
   RoomsListPage,
