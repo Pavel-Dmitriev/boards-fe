@@ -18,9 +18,7 @@ export const useRoomsStore = create<IState & IAction>((set) => {
       set({ isLoading: true });
 
       try {
-        const data = await api
-          .get<{ data: IRoom[] }>("/rooms")
-          .then((res) => res?.data?.data);
+        const data = await api.get<{ data: IRoom[] }>("/rooms").then((res) => res?.data?.data);
 
         set({ rooms: data });
       } catch (error) {
@@ -34,9 +32,7 @@ export const useRoomsStore = create<IState & IAction>((set) => {
       set({ isLoading: true });
 
       try {
-        const data = await api
-          .get<{ data: IRoom }>(`/rooms/${id}`)
-          .then((res) => res?.data?.data);
+        const data = await api.get<{ data: IRoom }>(`/rooms/${id}`).then((res) => res?.data?.data);
 
         set({ room: data });
       } catch (error) {

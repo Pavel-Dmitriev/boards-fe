@@ -1,7 +1,10 @@
 import { RiLogoutBoxLine, RiMoonLine, RiSunLine, RiUserLine } from "@remixicon/react";
-import { Link, useNavigate } from "react-router-dom";
+import clsx from "clsx";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
+import { MENU } from "./menu";
 import { Button, Spinner } from "components/ui";
+import { useUsersStore } from "shared/stores";
 import { useAuthStore } from "shared/stores/auth";
 import { useThemeStore } from "shared/stores/theme";
 
@@ -10,7 +13,8 @@ import ligaBoard from "assets/liga-board.avif";
 import { useIsDark } from "shared/hooks";
 
 export function Header() {
-  const { isAuthenticated, user, logout, isLoading } = useAuthStore();
+  const { isAuthenticated, logout, isLoading: isLoadingUser } = useAuthStore();
+  const { profile, isLoading: isLoadingProfile } = useUsersStore();
   const { toggleTheme } = useThemeStore();
   const isDark = useIsDark();
   const navigate = useNavigate();
@@ -20,40 +24,47 @@ export function Header() {
     navigate("/login");
   };
 
+  const menu = !isAuthenticated ? Array(MENU[0]) : MENU;
+
   return (
     <header className="header">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <Link to="/rooms" className="flex items-center gap-2">
+        <Link
+          to="/rooms"
+          className="hover:text-accent dark:hover:text-accent-light flex items-center gap-2"
+        >
           <img src={ligaBoard} alt="Доска" className="max-w-10" loading="lazy" />
           <span className="text-lg font-medium">Liga Board</span>
         </Link>
 
         <nav className="flex items-center gap-6">
-          {isLoading ? (
+          {isLoadingUser || isLoadingProfile ? (
             <Spinner size="sm" />
           ) : (
             <>
-              <Link
-                to="/rooms"
-                className="text-neutral/70 text-sm transition-colors dark:hover:text-white"
-              >
-                Комнаты
-              </Link>
+              {menu.map((it) => (
+                <NavLink
+                  key={it.key}
+                  to={it.path}
+                  className={({ isActive }) =>
+                    clsx(
+                      "text-sm transition-colors",
+                      isActive ? "text-purple-500 dark:text-purple-400" : "text-primary",
+                    )
+                  }
+                >
+                  {it.title}
+                </NavLink>
+              ))}
 
               {isAuthenticated ? (
                 <>
-                  <Link
-                    to="/create-card"
-                    className="text-neutral/70 text-sm transition-colors hover:text-white"
-                  >
-                    Создать карточку
-                  </Link>
                   <Link
                     to="/profile"
                     className="text-neutral/70! flex items-center gap-1 text-sm transition-colors hover:text-white"
                   >
                     <RiUserLine className="h-4 w-4" />
-                    {user?.name ?? "Say my name"}
+                    {profile?.name}
                   </Link>
                   <Button
                     onClick={handleLogout}
@@ -69,14 +80,11 @@ export function Header() {
                 <>
                   <Link
                     to="/login"
-                    className="text-neutral/70 text-sm transition-colors hover:text-white"
+                    className="text-primary text-sm transition-colors hover:text-purple-500 dark:hover:text-purple-400"
                   >
                     Войти
                   </Link>
-                  <Link
-                    to="/register"
-                    className="btn btn-primary hover:text-primary! px-4 py-2 text-sm"
-                  >
+                  <Link to="/register" className="btn btn-primary px-4 py-2 text-sm">
                     Регистрация
                   </Link>
                 </>

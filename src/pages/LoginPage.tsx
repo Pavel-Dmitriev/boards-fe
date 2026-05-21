@@ -20,7 +20,7 @@ export function LoginPage() {
 
         <p className="text-neutral/70 mt-6 text-center text-sm">
           Нет аккаунта?{" "}
-          <Link to="/register" className="text-accent-light hover:underline">
+          <Link to="/register" className="link">
             Зарегистрироваться
           </Link>
         </p>

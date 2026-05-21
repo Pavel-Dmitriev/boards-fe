@@ -8,6 +8,7 @@
 @import "./input.css";
 @import "./blob.css";
 @import "./light-theme.css";
+@import "./link.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -61,8 +62,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  @apply text-primary dark:hover:text-purple-400 hover:text-purple-500;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 #root {

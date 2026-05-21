@@ -9,6 +9,7 @@ import {
   CardDetailPage,
   CreateCardPage,
   LoginPage,
+  MyCardsPage,
   ProfilePage,
   RegisterPage,
   RoomsDetailPage,
@@ -17,9 +18,9 @@ import {
 } from "./pages";
 import { ProtectedRoute } from "components/ProtectedRoute";
 
-const NoAccess = lazy(() => import("./pages/NoAccess"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const ErrorPage = lazy(() => import("./pages/ErrorPage"));
+const NoAccess = lazy(() => import("./pages/Service/NoAccess"));
+const NotFound = lazy(() => import("./pages/Service/NotFound"));
+const ErrorPage = lazy(() => import("./pages/Service/ErrorPage"));
 
 export const router = createBrowserRouter([
   {
@@ -28,13 +29,10 @@ export const router = createBrowserRouter([
     children: [
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
+      { path: "/my-cards", element: <MyCardsPage /> },
       {
         path: "/rooms",
-        element: (
-          <ProtectedRoute>
-            <RoomsListPage />
-          </ProtectedRoute>
-        ),
+        element: <RoomsListPage />,
       },
       {
         path: "/rooms/:id",
