@@ -1,7 +1,8 @@
 import { useCallback, useRef } from "react";
 
-import type { IModalConfig } from "./store/interface";
 import { useModalStore } from "./store";
+
+import type { IModalConfig } from "./store/interface";
 
 /**
  * Хук для управления модалкой.

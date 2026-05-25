@@ -20,7 +20,7 @@ export function RegisterPage() {
 
         <p className="text-neutral/70 mt-6 text-center text-sm">
           Уже есть аккаунт?{" "}
-          <Link to="/login" className="text-accent-light hover:underline">
+          <Link to="/login" className="link">
             Войти
           </Link>
         </p>

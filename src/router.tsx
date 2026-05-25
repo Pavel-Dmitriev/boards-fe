@@ -4,9 +4,6 @@ import { createBrowserRouter } from "react-router";
 import { Frame } from "components/layout/Frame";
 
 import {
-  BoardCreatePage,
-  BoardDetailPage,
-  CardDetailPage,
   CreateCardPage,
   LoginPage,
   MyCardsPage,
@@ -32,56 +29,25 @@ export const router = createBrowserRouter([
       { path: "/my-cards", element: <MyCardsPage /> },
       {
         path: "/rooms",
-        element: <RoomsListPage />,
-      },
-      {
-        path: "/rooms/:id",
-        element: (
-          <ProtectedRoute>
-            <RoomsDetailPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/rooms/create",
-        element: (
-          <ProtectedRoute>
-            <RoomsFormPage />
-          </ProtectedRoute>
-        ),
-      },
-
-      {
-        path: "/board/:id",
-        element: (
-          <ProtectedRoute>
-            <BoardDetailPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/board/create",
-        element: (
-          <ProtectedRoute>
-            <BoardCreatePage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/board/update",
-        element: (
-          <ProtectedRoute>
-            <BoardCreatePage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/card/:id",
-        element: (
-          <ProtectedRoute>
-            <CardDetailPage />
-          </ProtectedRoute>
-        ),
+        children: [
+          { index: true, element: <RoomsListPage /> },
+          {
+            path: ":id",
+            element: (
+              <ProtectedRoute>
+                <RoomsDetailPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "create",
+            element: (
+              <ProtectedRoute>
+                <RoomsFormPage />
+              </ProtectedRoute>
+            ),
+          },
+        ],
       },
       {
         path: "/card/create",

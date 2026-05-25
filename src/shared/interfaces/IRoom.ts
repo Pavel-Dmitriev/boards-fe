@@ -18,5 +18,5 @@ export interface IRoom {
   /** Дата создания */
   createdAt: string;
   /** Дата обновления */
-  updatedAt: string;
+  updatedAt?: string;
 }
