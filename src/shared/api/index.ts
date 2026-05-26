@@ -1,9 +1,8 @@
 import axios from "axios";
 import type { AxiosError, InternalAxiosRequestConfig } from "axios";
 
-import { StatusCode } from "shared/enum/StatusCode";
-
 import { API_URL } from "shared/constants";
+import { StatusCode } from "shared/enum";
 
 import type { QueueItemType } from "./types";
 import type { IAuthResponse } from "shared/interfaces";
