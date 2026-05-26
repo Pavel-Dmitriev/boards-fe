@@ -15,7 +15,7 @@ export function Modal({ className }: IModalProps) {
   const { isOpen, config, close } = useModalStore();
 
   const contentProps = {
-    children: config?.children,
+    content: config?.children,
     buttons: config?.buttons,
     className,
     onClose: config?.onClose,
@@ -30,6 +30,10 @@ export function Modal({ className }: IModalProps) {
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [isOpen, close]);
+
+  const portalNode = document.getElementById("modal");
+
+  if (!portalNode) return null;
 
   return createPortal(
     <div
@@ -55,7 +59,7 @@ export function Modal({ className }: IModalProps) {
         {config?.title && (
           <header
             className={clsx(
-              "grid shrink-0 grid-cols-[1fr_min-content] items-center pb-5 md:pb-8",
+              "grid shrink-0 grid-cols-[1fr_min-content] items-center pb-5",
               className?.header,
             )}
           >
@@ -75,7 +79,7 @@ export function Modal({ className }: IModalProps) {
         )}
       </div>
     </div>,
-    document.body,
+    portalNode,
   );
 }
 export { useModal } from "./useModal";

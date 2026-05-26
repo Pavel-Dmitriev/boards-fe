@@ -2,12 +2,12 @@ import clsx from "clsx";
 
 import type { IContentProps } from "./interface";
 
-export function Content({ children, buttons, className, onClose }: IContentProps) {
+export function Content({ content, buttons, className, onClose }: IContentProps) {
   return (
     <>
-      {children && (
+      {content && (
         <div className={clsx("max-h-[60vh] flex-1 overflow-y-auto", className?.content)}>
-          {children}
+          {content}
         </div>
       )}
       {buttons && (

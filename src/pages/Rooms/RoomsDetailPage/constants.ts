@@ -1,4 +1,4 @@
-export const DEFALT_VALUES = {
+export const DEFAULT_VALUES = {
   title: "",
   description: "",
 };

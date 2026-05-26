@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export interface IModalProps {
   /** Кастомные классы для элементов модалки */
   className?: {
@@ -12,9 +14,9 @@ export interface IModalProps {
 
 export interface IContentProps {
   /** Контент */
-  children: React.ReactNode;
+  content: ReactNode;
   /** Кнопки */
-  buttons: React.ReactNode;
+  buttons: ReactNode;
   /** Кастомные классы */
   className?: { content?: string; buttons?: string };
   /** Колбэк при закрытии модалки */

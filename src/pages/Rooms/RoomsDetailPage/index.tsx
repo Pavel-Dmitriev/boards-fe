@@ -1,22 +1,27 @@
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 import Card from "components/Card";
+import { TextArea, TextInput } from "components/ui";
 import { Button } from "components/ui/Button";
 import { useModal } from "components/ui/Modal";
 
-import { DEFALT_VALUES } from "./constants";
+import { DEFAULT_VALUES } from "./constants";
 import { MOCK } from "./mock";
+import { FormRules } from "shared/enum";
 
+import type { IModalConfig } from "components/ui/Modal/store/interface";
+
+/** Страница подробной информации о комнате */
 export function RoomsDetailPage() {
   const { name, description, boards } = MOCK;
 
   const methods = useForm({
-    defaultValues: DEFALT_VALUES,
+    defaultValues: DEFAULT_VALUES,
   });
 
   const { register, handleSubmit, reset } = methods;
 
-  const handleSubmitForm = (data: any) => {
+  const handleSubmitForm = (data: { title: string; description: string }) => {
     console.log("data:", data);
     // TODO: Здесь можно добавить логику для отправки данных на сервер или обновления состояния
   };
@@ -26,22 +31,31 @@ export function RoomsDetailPage() {
     reset();
   };
 
-  const modalConfig = {
+  const modalConfig: IModalConfig = {
     title: "Создать доску",
+    wrapper: (content) => <FormProvider {...methods}>{content}</FormProvider>,
     children: (
-      <form className="grid gap-4" onSubmit={handleSubmit((data) => handleSubmitForm(data))}>
-        <input
-          className="input"
-          {...register("title", { required: true })}
-          name="title"
+      <form
+        id="board-form"
+        onSubmit={handleSubmit((data) => {
+          handleSubmitForm(data);
+          handleCloseModal();
+        })}
+        className="flex flex-col gap-4 p-1"
+      >
+        <TextInput
+          {...register("title", {
+            required: FormRules.required,
+          })}
+          label={{ children: "Название доски", required: true, hasWrapper: true }}
           placeholder="Введите название доски"
-          required
         />
-        <textarea
-          className="input"
+
+        <TextArea
           {...register("description")}
-          name="description"
-          placeholder="Введите описание доски"
+          placeholder="Введите описание"
+          label={{ children: "Описание", hasWrapper: true }}
+          rows={3}
         />
       </form>
     ),
@@ -50,7 +64,7 @@ export function RoomsDetailPage() {
         <Button type="button" kind="secondary" onClick={handleCloseModal}>
           Отмена
         </Button>
-        <Button type="submit" onClick={handleSubmit((data) => handleSubmitForm(data))}>
+        <Button type="submit" form="board-form">
           Создать
         </Button>
       </>
