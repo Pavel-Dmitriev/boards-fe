@@ -1,30 +1,48 @@
-import { useNavigate } from "react-router";
+import clsx from "clsx";
+import size from "lodash-es/size";
+import { useEffect } from "react";
 
-import { MOCK } from "./mock";
+import { Header, RoomsCard } from "./components";
+import { NoData, Spinner } from "components/ui";
+import { useRoomsStore } from "shared/stores";
 
+import useModalAction from "./useModalAction";
+
+/**
+ * Страница списка комнат.
+ * Загружает комнаты при монтировании, отображает список карточек.
+ * При пустом списке и отсутствии загрузки показывает NoData.
+ */
 export function RoomsListPage() {
-  const navigate = useNavigate();
+  const { rooms, getRooms, isLoading } = useRoomsStore((state) => state);
+
+  const { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal } = useModalAction();
+
+  const hasRooms = size(rooms) > 0;
+
+  useEffect(() => {
+    getRooms();
+  }, []);
+
+  if (isLoading && rooms?.length === 0) return <Spinner />;
 
   return (
     <>
-      <div className="mb-12 text-center">
-        <h1 className="mb-3 text-4xl font-medium">
-          <span className="gradient-text">Комнаты</span>
-        </h1>
-        <p className="text-neutral/70 text-lg">Выберите комнату для просмотра досок и карточек</p>
-      </div>
+      <Header onCreateRoom={onOpenCreateModal} />
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {MOCK.map((it) => (
-          <article key={it.id} className="card cursor-pointer" onClick={() => navigate(`${it.id}`)}>
-            <div className="mb-2">
-              <h2 className="text-xl font-medium">{it.name}</h2>
-              <span className="text-neutral/70 align-top text-xs">{it.createdAt}</span>
-            </div>
-            <p className="text-neutral/70 mb-4 text-sm">{it.description}</p>
-            <span className="badge text-xs">{it.boards} активных досок</span>
-          </article>
-        ))}
+      <div className={clsx("grid", { "gap-4 md:grid-cols-2 lg:grid-cols-3": hasRooms })}>
+        {hasRooms ? (
+          rooms.map((it) => (
+            <RoomsCard
+              key={`room_${it?.id}`}
+              {...it}
+              onEditRoom={onOpenEditModal}
+              onDeleteRoom={onOpenDeleteModal}
+            />
+          ))
+        ) : (
+          <NoData />
+        )}
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import type { IBoard } from "./IBoard";
+import type { IOwner } from "./IOwner";
 
 /** Интерфейс комнаты */
 export interface IRoom {
@@ -11,10 +11,10 @@ export interface IRoom {
   status: string;
   /** Тип комнаты */
   type: "public" | "private";
-  /** Идентификатор владельца комнаты */
-  ownerId: string;
-  /** Доски */
-  boards: IBoard[];
+  /** Владелец комнаты */
+  owner: IOwner;
+  /** Количество досок */
+  boardsCount: number;
   /** Дата создания */
   createdAt: string;
   /** Дата обновления */

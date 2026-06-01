@@ -82,4 +82,3 @@ export function Modal({ className }: IModalProps) {
     portalNode,
   );
 }
-export { useModal } from "./useModal";
