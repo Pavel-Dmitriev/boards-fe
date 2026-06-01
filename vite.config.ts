@@ -11,11 +11,17 @@ import svgr from "vite-plugin-svgr";
 export default defineConfig({
   plugins: [react(), tailwindcss(), svgr(), babel({ presets: [reactCompilerPreset()] })],
   server: {
-    open: "/",
+    open: "/rooms",
     port: 3001,
     host: "0.0.0.0",
     warmup: {
       clientFiles: ["./src/assets/styles/index.css"],
+    },
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+      },
     },
   },
   css: {
