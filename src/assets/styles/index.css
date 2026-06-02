@@ -103,3 +103,5 @@ body {
   
   after:content-[""] after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:bg-[radial-gradient(62.87%_100%_at_50%_100%,#c084fc20_0%,transparent_100%)] dark:after:bg-[radial-gradient(62.87%_100%_at_50%_100%,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0)_100%)];
 }
+
+@plugin 'tailwind-scrollbar';

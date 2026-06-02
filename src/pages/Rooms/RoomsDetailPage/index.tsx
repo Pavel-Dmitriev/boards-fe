@@ -3,13 +3,14 @@ import { FormProvider, useForm } from "react-hook-form";
 import Card from "components/Card";
 import { TextArea, TextInput } from "components/ui";
 import { Button } from "components/ui/Button";
-import { useModal } from "components/ui/Modal";
+import { useModalStore } from "components/ui/Modal/store";
 
 import { DEFAULT_VALUES } from "./constants";
 import { MOCK } from "./mock";
 import { FormRules } from "shared/enum";
 
 import type { IModalConfig } from "components/ui/Modal/store/interface";
+import type { IBoard, ICard } from "shared/interfaces";
 
 /** Страница подробной информации о комнате */
 export function RoomsDetailPage() {
@@ -21,6 +22,8 @@ export function RoomsDetailPage() {
 
   const { register, handleSubmit, reset } = methods;
 
+  const { open, close } = useModalStore();
+
   const handleSubmitForm = (data: { title: string; description: string }) => {
     console.log("data:", data);
     // TODO: Здесь можно добавить логику для отправки данных на сервер или обновления состояния
@@ -29,6 +32,10 @@ export function RoomsDetailPage() {
   const handleCloseModal = () => {
     close();
     reset();
+  };
+
+  const handleCardListWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    e.currentTarget.scrollLeft += e.deltaY;
   };
 
   const modalConfig: IModalConfig = {
@@ -71,8 +78,6 @@ export function RoomsDetailPage() {
     ),
   };
 
-  const { open, close } = useModal(modalConfig);
-
   return (
     <>
       <div className="mb-12 grid grid-cols-2 items-center justify-items-start gap-x-6 text-center">
@@ -82,7 +87,7 @@ export function RoomsDetailPage() {
           </h1>
           {description && <p className="text-neutral/70 text-left text-lg">{description}</p>}
         </div>
-        <div className="justify-self-end" onClick={() => open()}>
+        <div className="justify-self-end" onClick={() => open(modalConfig)}>
           <Button>Создать доску</Button>
         </div>
       </div>
@@ -90,8 +95,8 @@ export function RoomsDetailPage() {
       {boards?.length === 0 ? (
         <p className="text-neutral/70 text-center">В этой комнате пока нет досок</p>
       ) : (
-        <div className="">
-          {boards?.map((board) => (
+        <div>
+          {boards?.map((board: IBoard) => (
             <article key={board.id} className="card grid grid-cols-[28rem_1px_1fr] gap-x-6">
               <div className="flex flex-col">
                 <h2 className="mb-2 text-xl font-medium">{board.title}</h2>
@@ -104,9 +109,12 @@ export function RoomsDetailPage() {
                 </div>
               </div>
               <div className="h-full rounded-full bg-gray-200" />
-              <div className="flex gap-3 overflow-x-auto">
-                {board?.cards?.map((it) => (
-                  <Card key={it?.id} card={it} />
+              <div
+                className="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-200 active:scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-300 scrollbar-thumb-rounded-full dark:scrollbar-thumb-gray-500 hover:dark:scrollbar-thumb-gray-400 active:dark:scrollbar-thumb-gray-400 flex gap-3 overflow-x-auto pb-1"
+                onWheel={handleCardListWheel}
+              >
+                {board?.cards?.map((card: ICard) => (
+                  <Card key={card?.id} card={card} />
                 ))}
               </div>
             </article>
