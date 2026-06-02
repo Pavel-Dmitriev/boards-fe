@@ -7,3 +7,4 @@ export { TextInput } from "./TextInput";
 export { Label } from "./Label";
 export { Modal } from "./Modal";
 export { NoData } from "./NoData";
+export { ItemActions } from "./ItemActions";

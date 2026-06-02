@@ -5,7 +5,7 @@ export interface IBoard {
   /** Идентификатор */
   id: string;
   /** Название доски */
-  title: string;
+  name: string;
   /** Описание доски */
   description: string;
   /** Дата создания доски */

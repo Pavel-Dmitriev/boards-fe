@@ -1,6 +1,7 @@
-import { RiDeleteBinLine, RiEditBoxLine } from "@remixicon/react";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router";
+
+import { ItemActions } from "components/ui";
 
 import type { IRoomsCardProps } from "./interface";
 
@@ -24,26 +25,10 @@ export default function RoomsCard(props: IRoomsCardProps) {
       <div className="mb-2">
         <div className="flex gap-x-3">
           <h2 className="mb-1 grow text-xl font-medium">{name}</h2>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onEditRoom({ id, name, description });
-            }}
-            className="shrink cursor-pointer self-start text-purple-400 transition-colors hover:text-purple-300"
-          >
-            <RiEditBoxLine className="size-5" />
-          </button>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDeleteRoom(id);
-            }}
-            className="shrink cursor-pointer self-start text-red-400 transition-colors hover:text-red-300"
-          >
-            <RiDeleteBinLine className="size-5" />
-          </button>
+          <ItemActions
+            onEdit={() => onEditRoom({ id, name, description })}
+            onDelete={() => onDeleteRoom(id)}
+          />
         </div>
         <div className="flex items-center gap-x-2 text-xs">
           <span className="text-neutral/70 align-top">
