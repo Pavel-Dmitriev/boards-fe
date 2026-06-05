@@ -59,7 +59,6 @@ export function Label(props: ILabelProps) {
           },
           Boolean(text) && {
             "w-33": type === "number",
-            "w-103.5": type === "text",
           },
         )}
       >
