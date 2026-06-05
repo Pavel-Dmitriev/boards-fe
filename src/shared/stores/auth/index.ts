@@ -16,7 +16,7 @@ export const useAuthStore = create<IState & IAction>((set) => {
   return {
     user: null,
     isAuthenticated: false,
-    isLoading: false,
+    isLoading: true,
 
     login: async (email, password) => {
       try {

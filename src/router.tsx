@@ -10,7 +10,6 @@ import {
   ProfilePage,
   RegisterPage,
   RoomsDetailPage,
-  RoomsFormPage,
   RoomsListPage,
 } from "./pages";
 import { ProtectedRoute } from "components/ProtectedRoute";
@@ -36,14 +35,6 @@ export const router = createBrowserRouter([
             element: (
               <ProtectedRoute>
                 <RoomsDetailPage />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: "create",
-            element: (
-              <ProtectedRoute>
-                <RoomsFormPage />
               </ProtectedRoute>
             ),
           },

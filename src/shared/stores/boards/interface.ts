@@ -8,10 +8,12 @@ export interface IBoardsState {
 }
 
 export interface IBoardsAction {
+  /** Создать доску */
+  createBoard: (name: string, description: string, roomId: string) => Promise<void>;
   /** Получить доски комнаты */
   getBoards: (roomId: string) => Promise<void>;
   /** Обновить доску */
-  updateBoard: (boardId: string, title: string, description: string) => Promise<void>;
+  updateBoard: (boardId: string, name: string, description: string) => Promise<void>;
   /** Удалить доску */
   deleteBoard: (boardId: string) => Promise<void>;
   /** Поставить лайк карточке */

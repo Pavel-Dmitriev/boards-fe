@@ -3,9 +3,14 @@ export interface IEditBoardFormProps {
   /** Идентификатор доски */
   boardId: string;
   /** Название доски */
-  title: string;
+  name: string;
   /** Описание доски */
   description: string;
   /** Закрыть модалку */
   onClose: () => void;
+}
+
+export interface IFormData {
+  name: string;
+  description: string;
 }

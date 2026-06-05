@@ -13,6 +13,20 @@ export const useBoardsStore = create<IBoardsState & IBoardsAction>((set) => {
     boards: [],
     isLoading: false,
 
+    createBoard: async (name, description, roomId) => {
+      set({ isLoading: true });
+      try {
+        const data = await api
+          .post<{ data: IBoard }>("boards", { name, description, roomId: Number(roomId) })
+          .then((res) => res?.data?.data);
+
+        set((state) => ({ boards: [...state.boards, data] }));
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
     getBoards: async (roomId) => {
       set({ isLoading: true });
 
@@ -29,12 +43,12 @@ export const useBoardsStore = create<IBoardsState & IBoardsAction>((set) => {
       }
     },
 
-    updateBoard: async (boardId, title, description) => {
+    updateBoard: async (boardId, name, description) => {
       set({ isLoading: true });
 
       try {
         const data = await api
-          .put<{ data: IBoard }>(`/boards/${boardId}`, { title, description })
+          .put<{ data: IBoard }>(`/boards/${boardId}`, { name, description })
           .then((res) => res?.data?.data);
 
         set((state) => ({

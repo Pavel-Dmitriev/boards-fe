@@ -18,7 +18,7 @@ export default function Board(props: IBoardProps) {
   };
 
   return (
-    <article className="card grid grid-cols-[28rem_1px_1fr] gap-x-6">
+    <article className="card grid min-h-63 grid-cols-[28rem_1px_1fr] gap-x-6">
       <div className="flex flex-col">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-medium">{name}</h2>

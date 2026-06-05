@@ -4,7 +4,7 @@ import { LoginPage } from "./LoginPage";
 import { MyCardsPage } from "./MyCardsPage";
 import { ProfilePage } from "./ProfilePage";
 import { RegisterPage } from "./RegisterPage";
-import { RoomsDetailPage, RoomsFormPage, RoomsListPage } from "./Rooms";
+import { RoomsDetailPage, RoomsListPage } from "./Rooms";
 
 export {
   BoardListPage,
@@ -15,5 +15,4 @@ export {
   RegisterPage,
   RoomsListPage,
   RoomsDetailPage,
-  RoomsFormPage,
 };

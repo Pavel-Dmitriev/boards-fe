@@ -2,7 +2,8 @@ import clsx from "clsx";
 import size from "lodash-es/size";
 import { useEffect } from "react";
 
-import { Header, RoomsCard } from "./components";
+import { RoomsCard } from "./components";
+import PageHeader from "components/PageHeader";
 import { NoData, Spinner } from "components/ui";
 import { useRoomsStore } from "shared/stores";
 
@@ -28,7 +29,12 @@ export function RoomsListPage() {
 
   return (
     <>
-      <Header onCreateRoom={onOpenCreateModal} />
+      <PageHeader
+        title="Комнаты"
+        description="Выберите комнату для просмотра досок и карточек"
+        titleBtn="Создать комнату"
+        onCreate={onOpenCreateModal}
+      />
 
       <div className={clsx("grid", { "gap-4 md:grid-cols-2 lg:grid-cols-3": hasRooms })}>
         {hasRooms ? (
