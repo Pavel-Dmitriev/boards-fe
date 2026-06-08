@@ -19,8 +19,8 @@ export function Header() {
   const isDark = useIsDark();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate("/login");
   };
 
