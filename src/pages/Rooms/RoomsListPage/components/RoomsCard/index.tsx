@@ -1,7 +1,9 @@
+import { RiDoorOpenLine } from "@remixicon/react";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router";
 
-import { ItemActions } from "components/ui";
+import { Button, ItemActions } from "components/ui";
+import { useUsersStore } from "shared/stores";
 
 import type { IRoomsCardProps } from "./interface";
 
@@ -12,10 +14,23 @@ import type { IRoomsCardProps } from "./interface";
  * Иконки редактирования и удаления открывают соответствующие модалки.
  */
 export default function RoomsCard(props: IRoomsCardProps) {
-  const { id, name, createdAt, description, owner, boardsCount, onEditRoom, onDeleteRoom } =
-    props ?? {};
+  const {
+    id,
+    name,
+    createdAt,
+    description,
+    owner,
+    boardsCount,
+    onEditRoom,
+    onDeleteRoom,
+    onJoinRoom,
+  } = props ?? {};
 
   const navigate = useNavigate();
+
+  const profile = useUsersStore((state) => state.profile);
+
+  const isRoomAuthor = owner?.id === profile?.id;
 
   return (
     <article
@@ -41,7 +56,22 @@ export default function RoomsCard(props: IRoomsCardProps) {
       <div className="h-full">
         <p className="text-neutral/70 mb-4 line-clamp-3 text-sm">{description}</p>
       </div>
-      <span className="badge mt-auto self-start text-xs">{boardsCount ?? 0} активных досок</span>
+      <div className="mt-auto flex items-center justify-between">
+        <span className="badge self-start text-xs">{boardsCount ?? 0} активных досок</span>
+        {!isRoomAuthor && (
+          <Button
+            size="sm"
+            kind="outline"
+            leftIcon={<RiDoorOpenLine className="size-3.5" />}
+            onClick={(e) => {
+              e.stopPropagation();
+              onJoinRoom(id);
+            }}
+          >
+            Вступить
+          </Button>
+        )}
+      </div>
     </article>
   );
 }

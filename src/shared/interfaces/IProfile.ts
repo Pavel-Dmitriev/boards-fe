@@ -2,7 +2,7 @@ import type { ICard } from "./ICard";
 
 export interface IProfile {
   /** Идентификатор */
-  id: string;
+  id: number;
   /** Почта пользователя */
   email: string;
   /** Имя пользователя */

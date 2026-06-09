@@ -6,4 +6,6 @@ export interface IRoomsCardProps extends IRoom {
   onEditRoom: (room: Pick<IRoom, "id" | "name" | "description">) => void;
   /** Открыть модалку удаления */
   onDeleteRoom: (id: string) => void;
+  /** Вступить в комнату */
+  onJoinRoom: (id: string) => void;
 }
