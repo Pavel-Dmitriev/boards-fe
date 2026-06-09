@@ -1,5 +1,3 @@
-import type { ICard } from "./ICard";
-
 /** Интерфейс доски */
 export interface IBoard {
   /** Идентификатор */
@@ -14,8 +12,6 @@ export interface IBoard {
   room_id: string;
   /** Владелец доски */
   owner: IOwner;
-  /** Карточки */
-  cards: ICard[];
 }
 
 interface IOwner {

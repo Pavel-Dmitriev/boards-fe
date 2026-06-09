@@ -20,4 +20,6 @@ export interface IAction {
   updateRoom: (id: string, name: string, description: string) => Promise<void>;
   /** Удалить комнату */
   deleteRoom: (id: string) => Promise<void>;
+  /** Вступить в комнату */
+  joinRoom: (id: string) => Promise<void>;
 }

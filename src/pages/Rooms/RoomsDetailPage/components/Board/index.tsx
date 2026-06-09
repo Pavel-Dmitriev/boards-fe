@@ -9,7 +9,7 @@ import type { IBoardProps } from "./interface";
 import type { ICard } from "shared/interfaces";
 
 export default function Board(props: IBoardProps) {
-  const { name, description, cards, owner, onEditBoard, onDeleteBoard, onLikeCard } = props ?? {};
+  const { name, description, cards, owner, onEditBoard, onDeleteBoard } = props ?? {};
 
   const hasCards = size(cards) > 0;
 
@@ -39,9 +39,7 @@ export default function Board(props: IBoardProps) {
         onWheel={handleCardListWheel}
       >
         {hasCards ? (
-          cards?.map((card: ICard) => (
-            <Card key={card?.id} card={card} onLike={() => onLikeCard?.(card.id)} />
-          ))
+          cards?.map((card: ICard) => <Card key={card?.id} card={card} />)
         ) : (
           <NoData className="mt-0" size="md" />
         )}

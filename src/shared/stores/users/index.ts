@@ -17,10 +17,6 @@ export const useUsersStore = create<IState & IAction>((set) => {
       set({ isLoading: true });
 
       try {
-        // async (): Promise<AxiosResponse<{ data: IProfile }>> => {
-        //   return api.get("/users/profile");
-        // }
-
         const data = await api
           .get<{ data: IProfile }>("/users/profile")
           .then((res) => res?.data?.data);

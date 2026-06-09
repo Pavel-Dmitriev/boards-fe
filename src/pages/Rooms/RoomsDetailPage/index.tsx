@@ -16,13 +16,9 @@ export function RoomsDetailPage() {
 
   const { room, getRoom } = useRoomsStore();
 
-  const { boards, getBoards, toggleLike } = useBoardsStore();
+  const { boards, cardsByBoardId, getBoards, getCardsByBoardId } = useBoardsStore();
 
   const { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal } = useModalAction();
-
-  const handleToggleLike = (cardId: string) => {
-    toggleLike(cardId);
-  };
 
   useEffect(() => {
     if (id) {
@@ -35,6 +31,12 @@ export function RoomsDetailPage() {
       getBoards(id);
     }
   }, [room]);
+
+  useEffect(() => {
+    if (size(boards) > 0) {
+      Promise.all(boards.map((board) => getCardsByBoardId(board.id)));
+    }
+  }, [boards]);
 
   if (isNil(room)) return <Spinner />;
 
@@ -56,9 +58,9 @@ export function RoomsDetailPage() {
               <Board
                 key={`board_${id}`}
                 {...board}
+                cards={cardsByBoardId[id] ?? []}
                 onEditBoard={() => onOpenEditModal({ id, name, description })}
                 onDeleteBoard={() => onOpenDeleteModal(id)}
-                onLikeCard={handleToggleLike}
               />
             );
           })}
