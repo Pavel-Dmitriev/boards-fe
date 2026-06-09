@@ -1,101 +1,110 @@
+import omit from "lodash-es/omit";
 import { toast } from "sonner";
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 import { api } from "shared/api";
 
 import { getMessageError } from "shared/utils";
 
 import type { IBoardsAction, IBoardsState } from "./interface";
-import type { IBoard } from "shared/interfaces";
+import type { IBoard, ICard } from "shared/interfaces";
 
-export const useBoardsStore = create<IBoardsState & IBoardsAction>((set) => {
-  return {
-    boards: [],
-    isLoading: false,
+export const useBoardsStore = create<IBoardsState & IBoardsAction>()(
+  devtools(
+    (set) => ({
+      boards: [],
+      cardsByBoardId: {},
+      isLoading: false,
 
-    createBoard: async (name, description, roomId) => {
-      set({ isLoading: true });
-      try {
-        const data = await api
-          .post<{ data: IBoard }>("boards", { name, description, roomId: Number(roomId) })
-          .then((res) => res?.data?.data);
+      createBoard: async (name, description, roomId) => {
+        set({ isLoading: true });
+        try {
+          const data = await api
+            .post<{ data: IBoard }>("boards", { name, description, roomId: Number(roomId) })
+            .then((res) => res?.data?.data);
 
-        set((state) => ({ boards: [...state.boards, data] }));
-      } catch (error) {
-        toast.error(getMessageError(error));
-      } finally {
-        set({ isLoading: false });
-      }
-    },
-    getBoards: async (roomId) => {
-      set({ isLoading: true });
+          set((state) => ({ boards: [...state.boards, data] }), undefined, "boards/createBoard");
+        } catch (error) {
+          toast.error(getMessageError(error));
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+      getBoards: async (roomId) => {
+        set({ isLoading: true });
 
-      try {
-        const data = await api
-          .get<{ data: IBoard[] }>(`/boards/?roomId=${roomId}`)
-          .then((res) => res?.data?.data);
+        try {
+          const data = await api
+            .get<{ data: IBoard[] }>(`/boards/?roomId=${roomId}`)
+            .then((res) => res?.data?.data);
 
-        set({ boards: data });
-      } catch (error) {
-        toast.error(getMessageError(error));
-      } finally {
-        set({ isLoading: false });
-      }
-    },
+          set({ boards: data }, undefined, "boards/getBoards");
+        } catch (error) {
+          toast.error(getMessageError(error));
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+      getCardsByBoardId: async (boardId) => {
+        try {
+          const data = await api
+            .get<{ data: ICard[] }>(`/cards/?boardId=${boardId}`)
+            .then((res) => res?.data?.data);
 
-    updateBoard: async (boardId, name, description) => {
-      set({ isLoading: true });
+          set(
+            (state) => ({ cardsByBoardId: { ...state.cardsByBoardId, [boardId]: data } }),
+            undefined,
+            "boards/getCardsByBoardId",
+          );
+        } catch (error) {
+          toast.error(getMessageError(error));
+        }
+      },
 
-      try {
-        const data = await api
-          .put<{ data: IBoard }>(`/boards/${boardId}`, { name, description })
-          .then((res) => res?.data?.data);
+      updateBoard: async (boardId, name, description) => {
+        set({ isLoading: true });
 
-        set((state) => ({
-          boards: state.boards.map((board) => (board.id === boardId ? data : board)),
-        }));
-      } catch (error) {
-        toast.error(getMessageError(error));
-      } finally {
-        set({ isLoading: false });
-      }
-    },
+        try {
+          const data = await api
+            .put<{ data: IBoard }>(`/boards/${boardId}`, { name, description })
+            .then((res) => res?.data?.data);
 
-    deleteBoard: async (boardId) => {
-      set({ isLoading: true });
+          set(
+            (state) => ({
+              boards: state.boards.map((board) => (board.id === boardId ? data : board)),
+            }),
+            undefined,
+            "boards/updateBoard",
+          );
+        } catch (error) {
+          toast.error(getMessageError(error));
+        } finally {
+          set({ isLoading: false });
+        }
+      },
 
-      try {
-        await api.delete(`/boards/${boardId}`);
+      deleteBoard: async (boardId) => {
+        set({ isLoading: true });
 
-        set((state) => ({
-          boards: state.boards.filter((board) => board.id !== boardId),
-        }));
-      } catch (error) {
-        toast.error(getMessageError(error));
-      } finally {
-        set({ isLoading: false });
-      }
-    },
+        try {
+          await api.delete(`/boards/${boardId}`);
 
-    toggleLike: async (cardId) => {
-      try {
-        const { isLiked } = await api
-          .post<{ data: { isLiked: boolean } }>(`/cards/${cardId}/like`)
-          .then((res) => res?.data?.data);
-
-        set((state) => ({
-          boards: state.boards.map((board) => ({
-            ...board,
-            cards: board.cards.map((card) =>
-              card.id === cardId
-                ? { ...card, likes_count: (card.likes_count ?? 0) + (isLiked ? 1 : -1) }
-                : card,
-            ),
-          })),
-        }));
-      } catch (error) {
-        toast.error(getMessageError(error));
-      }
-    },
-  };
-});
+          set(
+            (state) => ({
+              boards: state.boards.filter((board) => board.id !== boardId),
+              cardsByBoardId: omit(state.cardsByBoardId, boardId),
+            }),
+            undefined,
+            "boards/deleteBoard",
+          );
+        } catch (error) {
+          toast.error(getMessageError(error));
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+    }),
+    { name: "BoardsStore" },
+  ),
+);
