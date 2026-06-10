@@ -29,7 +29,14 @@ export const router = createBrowserRouter([
       {
         path: "/rooms",
         children: [
-          { index: true, element: <RoomsListPage /> },
+          {
+            index: true,
+            element: (
+              <ProtectedRoute>
+                <RoomsListPage />
+              </ProtectedRoute>
+            ),
+          },
           {
             path: ":id",
             element: (
