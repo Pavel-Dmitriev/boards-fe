@@ -9,6 +9,7 @@ export function ItemActions(props: IItemActionsProps) {
   return (
     <div className="flex gap-x-3">
       <button
+        title="Редактировать комнату"
         type="button"
         onClick={(e) => {
           e.stopPropagation();
@@ -19,6 +20,7 @@ export function ItemActions(props: IItemActionsProps) {
         <RiEditBoxLine className="size-5" />
       </button>
       <button
+        title="Удалить комнату"
         type="button"
         onClick={(e) => {
           e.stopPropagation();

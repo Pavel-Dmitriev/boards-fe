@@ -1,3 +1,4 @@
+import { RiAddFill } from "@remixicon/react";
 import clsx from "clsx";
 import { size } from "lodash-es";
 import type { WheelEvent } from "react";
@@ -9,7 +10,7 @@ import type { IBoardProps } from "./interface";
 import type { ICard } from "shared/interfaces";
 
 export default function Board(props: IBoardProps) {
-  const { name, description, cards, owner, onEditBoard, onDeleteBoard } = props ?? {};
+  const { name, description, cards, owner, onEditBoard, onDeleteBoard, onCreateCard } = props ?? {};
 
   const hasCards = size(cards) > 0;
 
@@ -25,9 +26,22 @@ export default function Board(props: IBoardProps) {
           <ItemActions onEdit={onEditBoard} onDelete={onDeleteBoard} />
         </div>
         <p className="text-neutral/70 mb-4 flex-1 text-sm">{description}</p>
-        <div className="flex items-center justify-between">
+        <div className="flex items-end gap-x-4">
           <span className="badge text-xs">Всего карточек: {cards?.length ?? 0}</span>
-          {owner?.name && <span className="text-neutral/70 text-xs">{owner.name}</span>}
+          <button
+            title="Добавить карточку"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onCreateCard?.();
+            }}
+            className="shrink cursor-pointer self-end text-purple-400 transition-colors hover:text-purple-300"
+          >
+            <RiAddFill className="size-6" />
+          </button>
+          {owner?.name && (
+            <span className="text-neutral/70 grow text-end text-xs">{owner.name}</span>
+          )}
         </div>
       </div>
       <div className="h-full rounded-full bg-gray-200" />

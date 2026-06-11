@@ -9,8 +9,3 @@ export interface IEditBoardFormProps {
   /** Закрыть модалку */
   onClose: () => void;
 }
-
-export interface IFormData {
-  name: string;
-  description: string;
-}

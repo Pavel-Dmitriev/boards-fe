@@ -18,7 +18,8 @@ export function RoomsDetailPage() {
 
   const { boards, cardsByBoardId, getBoards, getCardsByBoardId } = useBoardsStore();
 
-  const { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal } = useModalAction();
+  const { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal, onOpenCreateCardModal } =
+    useModalAction();
 
   useEffect(() => {
     if (id) {
@@ -61,6 +62,7 @@ export function RoomsDetailPage() {
                 cards={cardsByBoardId[id] ?? []}
                 onEditBoard={() => onOpenEditModal({ id, name, description })}
                 onDeleteBoard={() => onOpenDeleteModal(id)}
+                onCreateCard={() => onOpenCreateCardModal(id)}
               />
             );
           })}

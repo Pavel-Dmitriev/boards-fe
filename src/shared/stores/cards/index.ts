@@ -19,7 +19,6 @@ export const useCardsStore = create<IState & IAction>((set) => ({
       const data = await api
         .post<{ data: ICard }>("/cards", { title, description, boardId })
         .then((res) => res?.data?.data);
-
       set((state) => ({ cards: [...state.cards, data] }));
     } catch (error) {
       toast.error(getMessageError(error));
