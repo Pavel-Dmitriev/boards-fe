@@ -34,9 +34,7 @@ export const useCardsStore = create<IState & IAction>((set) => ({
         .get<{ data: ICard[] }>(`/cards/?boardId=${boardId}`)
         .then((res) => res?.data?.data);
 
-      set(
-        (state) => ({ cardsByBoardId: { ...state.cardsByBoardId, [boardId]: data } }),
-      );
+      set((state) => ({ cardsByBoardId: { ...state.cardsByBoardId, [boardId]: data } }));
     } catch (error) {
       toast.error(getMessageError(error));
     }

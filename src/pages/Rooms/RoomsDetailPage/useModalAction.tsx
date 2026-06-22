@@ -97,9 +97,11 @@ function useModalAction() {
 
   /**
    * Открывает модалку подтверждения удаления доски
-   * @param id — идентификатор доски
+   * @param boardId — идентификатор доски
    */
-  const onOpenDeleteModal = (id: string) => {
+  const onOpenDeleteModal = (boardId: string) => {
+    if (!id) return;
+
     open({
       title: "Удалить доску",
       children: <p>Вы уверены, что хотите удалить доску?</p>,
@@ -111,7 +113,7 @@ function useModalAction() {
           <Button
             type="button"
             onClick={() => {
-              deleteBoard(id);
+              deleteBoard(boardId, id);
               close();
             }}
           >

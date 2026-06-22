@@ -16,7 +16,7 @@ export function useControl() {
   const navigate = useNavigate();
 
   const { rooms, getRooms, isLoading: isRoomsLoading } = useRoomsStore();
-  const { boards, getBoards, isLoading: isBoardsLoading } = useBoardsStore();
+  const { data: boards, getBoards, isLoading: isBoardsLoading } = useBoardsStore();
   const { createCard, isLoading } = useCardsStore();
 
   const methods = useForm<IFormData>({
