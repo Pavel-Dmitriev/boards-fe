@@ -1,4 +1,3 @@
-import omit from "lodash-es/omit";
 import { toast } from "sonner";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
@@ -8,13 +7,12 @@ import { api } from "shared/api";
 import { getMessageError } from "shared/utils";
 
 import type { IBoardsAction, IBoardsState } from "./interface";
-import type { IBoard, ICard } from "shared/interfaces";
+import type { IBoard } from "shared/interfaces";
 
 export const useBoardsStore = create<IBoardsState & IBoardsAction>()(
   devtools(
     (set) => ({
       boards: [],
-      cardsByBoardId: {},
       isLoading: false,
 
       createBoard: async (name, description, roomId) => {
@@ -44,21 +42,6 @@ export const useBoardsStore = create<IBoardsState & IBoardsAction>()(
           toast.error(getMessageError(error));
         } finally {
           set({ isLoading: false });
-        }
-      },
-      getCardsByBoardId: async (boardId) => {
-        try {
-          const data = await api
-            .get<{ data: ICard[] }>(`/cards/?boardId=${boardId}`)
-            .then((res) => res?.data?.data);
-
-          set(
-            (state) => ({ cardsByBoardId: { ...state.cardsByBoardId, [boardId]: data } }),
-            undefined,
-            "boards/getCardsByBoardId",
-          );
-        } catch (error) {
-          toast.error(getMessageError(error));
         }
       },
 
@@ -93,7 +76,6 @@ export const useBoardsStore = create<IBoardsState & IBoardsAction>()(
           set(
             (state) => ({
               boards: state.boards.filter((board) => board.id !== boardId),
-              cardsByBoardId: omit(state.cardsByBoardId, boardId),
             }),
             undefined,
             "boards/deleteBoard",

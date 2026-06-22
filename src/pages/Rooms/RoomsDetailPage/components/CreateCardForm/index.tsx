@@ -1,5 +1,5 @@
 import { FormLayout } from "components/ui";
-import { useBoardsStore, useCardsStore } from "shared/stores";
+import { useCardsStore } from "shared/stores";
 
 import { DEFAULT_VALUES } from "./constants";
 
@@ -10,8 +10,7 @@ import type { ICreateCardFormValues } from "./interface";
  * Содержит поля «Название» и «Описание», при сабмите вызывает createCard.
  */
 export default function CreateCardForm({ boardId, onClose }: any) {
-  const createCard = useCardsStore((state) => state.createCard);
-  const getCardsByBoardId = useBoardsStore((state) => state.getCardsByBoardId);
+  const { createCard, getCardsByBoardId } = useCardsStore();
 
   /** Метод, вызываемый при отправке формы
    * Вызывает createCard с данными из формы, а затем обновляет список карточек для доски через getCardsByBoardId.

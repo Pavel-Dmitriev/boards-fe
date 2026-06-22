@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { Board } from "./components";
 import PageHeader from "components/PageHeader";
 import { NoData, Spinner } from "components/ui";
-import { useBoardsStore, useRoomsStore } from "shared/stores";
+import { useBoardsStore, useCardsStore, useRoomsStore } from "shared/stores";
 
 import useModalAction from "./useModalAction";
 
@@ -16,7 +16,8 @@ export function RoomsDetailPage() {
 
   const { room, getRoom } = useRoomsStore();
 
-  const { boards, cardsByBoardId, getBoards, getCardsByBoardId } = useBoardsStore();
+  const { boards, getBoards } = useBoardsStore();
+  const { cardsByBoardId, getCardsByBoardId } = useCardsStore();
 
   const { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal, onOpenCreateCardModal } =
     useModalAction();

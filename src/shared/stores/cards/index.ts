@@ -10,6 +10,7 @@ import type { ICard } from "shared/interfaces";
 
 export const useCardsStore = create<IState & IAction>((set) => ({
   cards: [],
+  cardsByBoardId: {},
   isLoading: false,
 
   createCard: async (title, description, boardId) => {
@@ -24,6 +25,20 @@ export const useCardsStore = create<IState & IAction>((set) => ({
       toast.error(getMessageError(error));
     } finally {
       set({ isLoading: false });
+    }
+  },
+
+  getCardsByBoardId: async (boardId) => {
+    try {
+      const data = await api
+        .get<{ data: ICard[] }>(`/cards/?boardId=${boardId}`)
+        .then((res) => res?.data?.data);
+
+      set(
+        (state) => ({ cardsByBoardId: { ...state.cardsByBoardId, [boardId]: data } }),
+      );
+    } catch (error) {
+      toast.error(getMessageError(error));
     }
   },
 }));
