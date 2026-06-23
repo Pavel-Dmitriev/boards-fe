@@ -15,7 +15,7 @@ import useModalAction from "./useModalAction";
  * При пустом списке и отсутствии загрузки показывает NoData.
  */
 export function RoomsListPage() {
-  const { rooms, getRooms, isLoading, joinRoom } = useRoomsStore((state) => state);
+  const { data: rooms, getRooms, isLoading, joinRoom } = useRoomsStore((state) => state);
 
   const { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal } = useModalAction();
 

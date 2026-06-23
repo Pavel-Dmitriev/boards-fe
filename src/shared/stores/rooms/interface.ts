@@ -1,16 +1,22 @@
 import type { IRoom } from "shared/interfaces";
 
-export interface IState {
-  /** Список комнат */
-  rooms: IRoom[];
-  /** Текущая комната */
+/**
+ * Дополнительное состояние стора комнат.
+ * Расширяет базовое состояние пагинации (data, isLoading и т.д.),
+ * добавленное фабрикой createResourceStore.
+ */
+export interface IRoomsExtraState {
+  /** Текущая выбранная комната */
   room: IRoom | null;
-  /** Флаг загрузки */
-  isLoading: boolean;
 }
 
-export interface IAction {
-  /** Получить все комнаты */
+/**
+ * Дополнительные действия стора комнат.
+ * Расширяет базовые методы пагинации (fetchPage, nextPage и т.д.),
+ * добавленные фабрикой createResourceStore.
+ */
+export interface IRoomsExtraActions {
+  /** Загрузить список комнат (обёртка над fetchPage) */
   getRooms: () => Promise<void>;
   /** Получить комнату по ID */
   getRoom: (id: string) => Promise<void>;

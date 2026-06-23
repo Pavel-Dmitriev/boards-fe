@@ -1,123 +1,101 @@
 import { toast } from "sonner";
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+
+import { createResourceStore } from "../createResourceStore";
 
 import { api } from "shared/api";
 
 import { getMessageError } from "shared/utils";
 
-import type { IAction, IState } from "./interface";
+import type { IRoomsExtraActions, IRoomsExtraState } from "./interface";
 import type { IRoom } from "shared/interfaces";
 
-export const useRoomsStore = create<IState & IAction>()(
-  devtools(
-    (set) => ({
-      rooms: [],
-      room: null,
-      isLoading: false,
+export const useRoomsStore = createResourceStore<IRoom, IRoomsExtraState, IRoomsExtraActions>({
+  fetchFn: async ({ page, limit, search }) => {
+    const searchParam = search ? `&search=${search}` : "";
+    const res = await api.get(`/rooms?page=${page}&limit=${limit}${searchParam}`);
 
-      getRooms: async () => {
-        set({ isLoading: true });
+    return { data: res?.data?.data, total: res?.data.meta?.total };
+  },
 
-        try {
-          const data = await api.get<{ data: IRoom[] }>("/rooms").then((res) => res?.data?.data);
+  initialLimit: 15,
 
-          set({ rooms: data }, undefined, "room/getRooms");
-        } catch (error) {
-          toast.error(getMessageError(error));
-        } finally {
-          set({ isLoading: false });
-        }
-      },
+  extraState: {
+    room: null,
+  },
 
-      getRoom: async (id) => {
-        set({ isLoading: true });
+  extraActions: (set, get): IRoomsExtraActions => ({
+    getRooms: () => get().fetchPage(get().page ?? 1),
 
-        try {
-          const data = await api
-            .get<{ data: IRoom }>(`/rooms/${id}`)
-            .then((res) => res?.data?.data);
+    getRoom: async (id) => {
+      set({ isLoading: true });
 
-          set({ room: data }, undefined, "room/getRoom");
-        } catch (error) {
-          toast.error(getMessageError(error));
-        } finally {
-          set({ isLoading: false });
-        }
-      },
+      try {
+        const data = await api.get<{ data: IRoom }>(`/rooms/${id}`).then((res) => res?.data?.data);
 
-      createRoom: async (name, description) => {
-        set({ isLoading: true });
+        set((state) => ({ ...state, room: data }));
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
 
-        try {
-          const data = await api
-            .post<{ data: IRoom }>("/rooms", { name, description })
-            .then((res) => res?.data?.data);
+    createRoom: async (name, description) => {
+      set({ isLoading: true });
 
-          set((state) => ({ rooms: [...state.rooms, data] }), undefined, "rooms/createRoom");
-        } catch (error) {
-          toast.error(getMessageError(error));
-        } finally {
-          set({ isLoading: false });
-        }
-      },
+      try {
+        await api.post<{ data: IRoom }>("/rooms", { name, description });
 
-      updateRoom: async (id, name, description) => {
-        set({ isLoading: true });
+        await get().fetchPage(get().page ?? 1);
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
 
-        try {
-          const data = await api
-            .put<{ data: IRoom }>(`/rooms/${id}`, { name, description })
-            .then((res) => res?.data?.data);
+    updateRoom: async (id, name, description) => {
+      set({ isLoading: true });
 
-          set(
-            (state) => ({
-              rooms: state.rooms.map((room) => (room.id === id ? data : room)),
-            }),
-            undefined,
-            "room/updateRoom",
-          );
-        } catch (error) {
-          toast.error(getMessageError(error));
-        } finally {
-          set({ isLoading: false });
-        }
-      },
+      try {
+        await api.put<{ data: IRoom }>(`/rooms/${id}`, { name, description });
 
-      deleteRoom: async (id) => {
-        set({ isLoading: true });
+        await get().fetchPage(get().page ?? 1);
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
 
-        try {
-          await api.delete(`/rooms/${id}`);
+    deleteRoom: async (id) => {
+      set({ isLoading: true });
 
-          set(
-            (state) => ({
-              rooms: state.rooms.filter((room) => room.id !== id),
-            }),
-            undefined,
-            "room/deleteRoom",
-          );
-        } catch (error) {
-          toast.error(getMessageError(error));
-        } finally {
-          set({ isLoading: false });
-        }
-      },
+      try {
+        await api.delete(`/rooms/${id}`);
 
-      joinRoom: async (id) => {
-        set({ isLoading: true });
+        await get().fetchPage(get().page ?? 1);
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
 
-        try {
-          await api.post(`/rooms/${id}/join`).then((res) => res?.data?.data);
+    joinRoom: async (id) => {
+      set({ isLoading: true });
 
-          toast.success("Вы вступили в комнату");
-        } catch (error) {
-          toast.error(getMessageError(error));
-        } finally {
-          set({ isLoading: false });
-        }
-      },
-    }),
-    { name: "RoomsStore" },
-  ),
-);
+      try {
+        await api.post(`/rooms/${id}/join`).then((res) => res?.data?.data);
+
+        toast.success("Вы вступили в комнату");
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+  }),
+
+  name: "RoomsStore",
+});

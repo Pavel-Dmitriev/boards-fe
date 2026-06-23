@@ -15,8 +15,8 @@ function PageHeader({ title, description, titleBtn, onCreate }: IHeaderProps) {
         </h1>
         <p className="text-neutral/70 text-lg">{description}</p>
       </div>
-      <div className="justify-self-end" onClick={onCreate}>
-        <Button>{titleBtn}</Button>
+      <div className="justify-self-end">
+        <Button onClick={onCreate}>{titleBtn}</Button>
       </div>
     </div>
   );

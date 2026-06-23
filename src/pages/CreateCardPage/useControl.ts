@@ -15,7 +15,7 @@ import type { SelectOptionType } from "shared/types/SelectOptionType";
 export function useControl() {
   const navigate = useNavigate();
 
-  const { rooms, getRooms, isLoading: isRoomsLoading } = useRoomsStore();
+  const { data: rooms, getRooms, isLoading: isRoomsLoading } = useRoomsStore();
   const { data: boards, getBoards, isLoading: isBoardsLoading } = useBoardsStore();
   const { createCard, isLoading } = useCardsStore();
 
