@@ -16,7 +16,7 @@ export function RoomsDetailPage() {
 
   const { room, getRoom } = useRoomsStore();
 
-  const { boards, getBoards } = useBoardsStore();
+  const { data: boards, getBoards } = useBoardsStore();
   const { cardsByBoardId, getCardsByBoardId } = useCardsStore();
 
   const { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal, onOpenCreateCardModal } =

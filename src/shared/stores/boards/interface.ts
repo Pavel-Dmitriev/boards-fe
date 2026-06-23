@@ -1,19 +1,15 @@
-import type { IBoard } from "shared/interfaces";
-
-export interface IBoardsState {
-  /** Список досок текущей комнаты */
-  boards: IBoard[];
-  /** Флаг загрузки */
-  isLoading: boolean;
-}
-
-export interface IBoardsAction {
-  /** Создать доску */
+/**
+ * Дополнительные действия стора досок.
+ * Расширяет базовые методы пагинации (fetchPage, nextPage и т.д.),
+ * добавленные фабрикой createResourceStore.
+ */
+export interface IBoardsExtraActions {
+  /** Создать доску в комнате */
   createBoard: (name: string, description: string, roomId: string) => Promise<void>;
-  /** Получить доски комнаты */
+  /** Загрузить доски комнаты (обёртка над fetchPage с roomId) */
   getBoards: (roomId: string) => Promise<void>;
-  /** Обновить доску */
+  /** Обновить название и описание доски */
   updateBoard: (boardId: string, name: string, description: string) => Promise<void>;
-  /** Удалить доску */
-  deleteBoard: (boardId: string) => Promise<void>;
+  /** Удалить доску и перезапросить текущую страницу */
+  deleteBoard: (boardId: string, roomId: string) => Promise<void>;
 }

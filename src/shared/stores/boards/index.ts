@@ -1,92 +1,75 @@
 import { toast } from "sonner";
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+
+import { createResourceStore } from "../createResourceStore";
 
 import { api } from "shared/api";
 
 import { getMessageError } from "shared/utils";
 
-import type { IBoardsAction, IBoardsState } from "./interface";
+import type { IBoardsExtraActions } from "./interface";
 import type { IBoard } from "shared/interfaces";
 
-export const useBoardsStore = create<IBoardsState & IBoardsAction>()(
-  devtools(
-    (set) => ({
-      boards: [],
-      isLoading: false,
+export const useBoardsStore = createResourceStore<IBoard, {}, IBoardsExtraActions>({
+  initialLimit: 5,
+  fetchFn: async ({ page, limit, roomId }) => {
+    const res = await api.get(`/boards?roomId=${roomId}&page=${page}&limit=${limit}`);
 
-      createBoard: async (name, description, roomId) => {
-        set({ isLoading: true });
-        try {
-          const data = await api
-            .post<{ data: IBoard }>("boards", { name, description, roomId: Number(roomId) })
-            .then((res) => res?.data?.data);
+    return { data: res.data.data, total: res.data.meta?.total };
+  },
 
-          set((state) => ({ boards: [...state.boards, data] }), undefined, "boards/createBoard");
-        } catch (error) {
-          toast.error(getMessageError(error));
-        } finally {
-          set({ isLoading: false });
-        }
-      },
-      getBoards: async (roomId) => {
-        set({ isLoading: true });
+  extraActions: (set, get): IBoardsExtraActions => ({
+    createBoard: async (name, description, roomId) => {
+      set({ isLoading: true });
 
-        try {
-          const data = await api
-            .get<{ data: IBoard[] }>(`/boards/?roomId=${roomId}`)
-            .then((res) => res?.data?.data);
+      try {
+        const res = await api.post("boards", { name, description, roomId: Number(roomId) });
+        const newBoard = res.data.data;
 
-          set({ boards: data }, undefined, "boards/getBoards");
-        } catch (error) {
-          toast.error(getMessageError(error));
-        } finally {
-          set({ isLoading: false });
-        }
-      },
+        set((state) => ({ data: [...state.data, newBoard] }));
+        get().fetchPage(get().page, { roomId });
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
 
-      updateBoard: async (boardId, name, description) => {
-        set({ isLoading: true });
+    getBoards: (roomId: string) => get().fetchPage(1, { roomId }),
 
-        try {
-          const data = await api
-            .put<{ data: IBoard }>(`/boards/${boardId}`, { name, description })
-            .then((res) => res?.data?.data);
+    updateBoard: async (boardId, name, description) => {
+      set({ isLoading: true });
 
-          set(
-            (state) => ({
-              boards: state.boards.map((board) => (board.id === boardId ? data : board)),
-            }),
-            undefined,
-            "boards/updateBoard",
-          );
-        } catch (error) {
-          toast.error(getMessageError(error));
-        } finally {
-          set({ isLoading: false });
-        }
-      },
+      try {
+        const res = await api.put(`/boards/${boardId}`, { name, description });
+        const updatedBoard = res.data.data;
 
-      deleteBoard: async (boardId) => {
-        set({ isLoading: true });
+        set((state) => ({
+          data: state.data.map((b) => (b.id === boardId ? updatedBoard : b)),
+        }));
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
 
-        try {
-          await api.delete(`/boards/${boardId}`);
+    deleteBoard: async (boardId, roomId) => {
+      set({ isLoading: true });
 
-          set(
-            (state) => ({
-              boards: state.boards.filter((board) => board.id !== boardId),
-            }),
-            undefined,
-            "boards/deleteBoard",
-          );
-        } catch (error) {
-          toast.error(getMessageError(error));
-        } finally {
-          set({ isLoading: false });
-        }
-      },
-    }),
-    { name: "BoardsStore" },
-  ),
-);
+      try {
+        await api.delete(`/boards/${boardId}`);
+
+        set((state) => ({
+          data: state.data.filter((b) => b.id !== boardId),
+        }));
+        get().fetchPage(get().page, { roomId });
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+  }),
+
+  name: "BoardsStore",
+});
