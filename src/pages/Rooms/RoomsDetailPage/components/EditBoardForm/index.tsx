@@ -8,7 +8,7 @@ import type { IEditBoardFormProps } from "./interface";
  * Содержит поля «Название» и «Описание», при сабмите вызывает updateBoard.
  */
 export default function EditBoardForm(props: IEditBoardFormProps) {
-  const { boardId, name, description, onClose } = props ?? {};
+  const { boardId, name, description, roomId, onClose } = props ?? {};
 
   const updateBoard = useBoardsStore((state) => state.updateBoard);
 
@@ -19,7 +19,7 @@ export default function EditBoardForm(props: IEditBoardFormProps) {
       nameField={{ name: "name", label: "Название доски", placeholder: "Введите название доски" }}
       descriptionField={{ name: "description", label: "Описание", placeholder: "Введите описание" }}
       onSubmit={({ name, description }) => {
-        if (boardId) updateBoard(boardId, name, description);
+        if (boardId && roomId) updateBoard(boardId, name, description, roomId);
       }}
       onClose={onClose}
     />

@@ -89,6 +89,7 @@ function useModalAction() {
           boardId={board.id}
           name={board.name}
           description={board.description}
+          roomId={id}
           onClose={close}
         />
       ),

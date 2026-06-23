@@ -8,8 +8,13 @@ export interface IBoardsExtraActions {
   createBoard: (name: string, description: string, roomId: string) => Promise<void>;
   /** Загрузить доски комнаты (обёртка над fetchPage с roomId) */
   getBoards: (roomId: string) => Promise<void>;
-  /** Обновить название и описание доски */
-  updateBoard: (boardId: string, name: string, description: string) => Promise<void>;
+  /** Обновить название и описание доски и перезапросить текущую страницу */
+  updateBoard: (
+    boardId: string,
+    name: string,
+    description: string,
+    roomId: string,
+  ) => Promise<void>;
   /** Удалить доску и перезапросить текущую страницу */
   deleteBoard: (boardId: string, roomId: string) => Promise<void>;
 }

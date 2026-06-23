@@ -22,11 +22,9 @@ export const useBoardsStore = createResourceStore<IBoard, {}, IBoardsExtraAction
       set({ isLoading: true });
 
       try {
-        const res = await api.post("boards", { name, description, roomId: Number(roomId) });
-        const newBoard = res.data.data;
+        await api.post("boards", { name, description, roomId: Number(roomId) });
 
-        set((state) => ({ data: [...state.data, newBoard] }));
-        get().fetchPage(get().page, { roomId });
+        await get().fetchPage(get().page, { roomId });
       } catch (error) {
         toast.error(getMessageError(error));
       } finally {
@@ -36,16 +34,13 @@ export const useBoardsStore = createResourceStore<IBoard, {}, IBoardsExtraAction
 
     getBoards: (roomId: string) => get().fetchPage(1, { roomId }),
 
-    updateBoard: async (boardId, name, description) => {
+    updateBoard: async (boardId, name, description, roomId) => {
       set({ isLoading: true });
 
       try {
-        const res = await api.put(`/boards/${boardId}`, { name, description });
-        const updatedBoard = res.data.data;
+        await api.put(`/boards/${boardId}`, { name, description });
 
-        set((state) => ({
-          data: state.data.map((b) => (b.id === boardId ? updatedBoard : b)),
-        }));
+        await get().fetchPage(get().page, { roomId });
       } catch (error) {
         toast.error(getMessageError(error));
       } finally {
@@ -59,10 +54,7 @@ export const useBoardsStore = createResourceStore<IBoard, {}, IBoardsExtraAction
       try {
         await api.delete(`/boards/${boardId}`);
 
-        set((state) => ({
-          data: state.data.filter((b) => b.id !== boardId),
-        }));
-        get().fetchPage(get().page, { roomId });
+        await get().fetchPage(get().page, { roomId });
       } catch (error) {
         toast.error(getMessageError(error));
       } finally {

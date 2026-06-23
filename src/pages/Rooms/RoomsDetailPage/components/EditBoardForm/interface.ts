@@ -6,6 +6,8 @@ export interface IEditBoardFormProps {
   name: string;
   /** Описание доски */
   description: string;
+  /** Идентификатор комнаты */
+  roomId?: string;
   /** Закрыть модалку */
   onClose: () => void;
 }
