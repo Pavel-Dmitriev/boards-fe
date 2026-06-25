@@ -8,7 +8,7 @@ import { useUsersStore } from "shared/stores";
 import { useAuthStore } from "shared/stores/auth";
 import { useThemeStore } from "shared/stores/theme";
 
-import ligaBoard from "assets/liga-board.avif";
+import boards from "assets/boards.avif";
 
 import { useIsDark } from "shared/hooks";
 
@@ -33,8 +33,8 @@ export function Header() {
           to="/rooms"
           className="hover:text-accent dark:hover:text-accent-light flex items-center gap-2"
         >
-          <img src={ligaBoard} alt="Доска" className="max-w-10" loading="lazy" />
-          <span className="text-lg font-medium">Liga Board</span>
+          <img src={boards} alt="" className="max-w-10" loading="lazy" />
+          <span className="text-lg font-medium">Доски</span>
         </Link>
 
         <nav className="flex items-center gap-6">
