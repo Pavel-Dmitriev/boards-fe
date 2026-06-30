@@ -1,19 +1,19 @@
-@utility badge {
+.badge {
   @apply inline-flex relative items-center inset-shadow-[0_-7px_11px_rgba(113,47,255,0.08)] rounded-full bg-bg-card py-1 px-3
   
   dark:inset-shadow-[0_-7px_11px_rgba(164,143,255,0.12)];
+}
 
-  &:after {
-    @apply content-[""] pointer-events-none absolute inset-0 rounded-[inherit] p-px bg-[linear-gradient(90deg,rgba(113,47,255,0.15)_0%,rgba(113,47,255,0.15)_50%,rgba(113,47,255,0.15)_100%)]
+.badge:after {
+  @apply content-[""] pointer-events-none absolute inset-0 rounded-[inherit] p-px bg-[linear-gradient(90deg,rgba(113,47,255,0.15)_0%,rgba(113,47,255,0.15)_50%,rgba(113,47,255,0.15)_100%)]
     dark:bg-[linear-gradient(90deg,rgba(229,156,255,0.24)_0%,rgba(186,156,255,0.24)_50%,rgba(156,178,255,0.24)_100%)];
 
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-  }
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }

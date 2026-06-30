@@ -1,14 +1,13 @@
 /* Капля градиент */
-@utility blob {
+.blob {
   @apply absolute opacity-40 blur-[80px] rounded-full pointer-events-none;
-
-  &-purple {
-    @apply bg-[radial-gradient(circle,rgba(113,47,255,0.3)_0%,transparent_70%)];
-  }
-  &-blue {
-    @apply bg-[radial-gradient(circle,rgba(156,178,255,0.2)_0%,transparent_70%)];
-  }
-  &-pink {
-    @apply bg-[radial-gradient(circle,rgba(229,156,255,0.2)_0%,transparent_70%)];
-  }
+}
+.blob-blue {
+  @apply bg-[radial-gradient(circle,rgba(156,178,255,0.2)_0%,transparent_70%)];
+}
+.blob-purple {
+  @apply bg-[radial-gradient(circle,rgba(113,47,255,0.3)_0%,transparent_70%)];
+}
+.blob-pink {
+  @apply bg-[radial-gradient(circle,rgba(229,156,255,0.2)_0%,transparent_70%)];
 }
