@@ -49,7 +49,7 @@ export default [
       "react-hooks/preserve-manual-memoization": ["off"],
       "react-refresh/only-export-components": [
         "warn",
-        { allowConstantExport: true, allowVariableExport: true },
+        { allowConstantExport: true },
       ],
       "react-hooks/refs": ["warn"],
       // Импорт

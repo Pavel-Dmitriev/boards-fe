@@ -45,6 +45,7 @@ export const useAuthStore = create<IState & IAction>()(
           set({ user, isAuthenticated: true }, undefined, "auth/register");
         } catch (error) {
           toast.error(getMessageError(error));
+          throw error;
         }
       },
 

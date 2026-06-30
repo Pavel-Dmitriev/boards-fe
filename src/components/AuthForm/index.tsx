@@ -11,7 +11,11 @@ import { AuthPath } from "./enum";
 import type { IFormData } from "./interface";
 
 function AuthForm() {
-  const { register, handleSubmit } = useForm<IFormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<IFormData>();
   const location = useLocation();
   const { login, register: registerUser } = useAuthStore();
   const getProfile = useUsersStore((state) => state.getProfile);
@@ -24,6 +28,7 @@ function AuthForm() {
     } else {
       await login(data.email, data.password);
     }
+
     await getProfile();
   };
 
@@ -67,7 +72,7 @@ function AuthForm() {
         />
       </div>
 
-      <Button type="submit" className="mt-2 w-full">
+      <Button type="submit" className="mt-2 w-full" disabled={isSubmitting}>
         {isRegisterPage ? "Зарегистрироваться" : "Войти"}
       </Button>
     </form>

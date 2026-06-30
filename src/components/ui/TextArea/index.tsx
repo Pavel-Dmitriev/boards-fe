@@ -20,7 +20,7 @@ export function TextArea(props: ITextAreaProps) {
   const handleInput = (e: SyntheticEvent<HTMLTextAreaElement>) => {
     const element = e.currentTarget;
     element.style.height = "auto";
-    element.style.height = element.scrollHeight + "px";
+    element.style.height = `${element.scrollHeight }px`;
   };
 
   return (
