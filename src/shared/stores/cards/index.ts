@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { toast } from "sonner";
+import { useStore } from "zustand";
 
 import { createResourceStore } from "../createResourceStore";
 
@@ -6,45 +8,76 @@ import { api } from "shared/api";
 
 import { getMessageError } from "shared/utils";
 
-import type { ICardsExtraActions, ICardsExtraState } from "./interface";
 import type { ICard } from "shared/interfaces";
 
-export const useCardsStore = createResourceStore<ICard, ICardsExtraState, ICardsExtraActions>({
-  fetchFn: async () => ({ data: [], total: 0 }),
+const stores = new Map<string, ReturnType<typeof createBoardCardsStore>>();
 
-  extraState: {
-    cardsByBoardId: {},
-  },
+function createBoardCardsStore(boardId: string) {
+  return createResourceStore<
+    ICard,
+    object,
+    { createCard: (title: string, description: string, boardId: number) => Promise<void> }
+  >({
+    initialLimit: 5,
+    fetchFn: async (params) => {
+      const { page, limit } = params ?? {};
+      const id = (params?.boardId || boardId) as string;
 
-  extraActions: (set): ICardsExtraActions => ({
-    createCard: async (title, description, boardId) => {
-      set({ isLoading: true });
+      const response = await api
+        .get<{
+          data: ICard[];
+          meta: { total: number };
+        }>(`/cards/?boardId=${id}&page=${page}&limit=${limit}`)
+        .then((res) => res?.data);
 
-      try {
-        const data = await api
-          .post<{ data: ICard }>("/cards", { title, description, boardId })
-          .then((res) => res?.data?.data);
-
-        set((state) => ({ data: [...state.data, data] }));
-      } catch (error) {
-        toast.error(getMessageError(error));
-      } finally {
-        set({ isLoading: false });
-      }
+      return { data: response.data, total: response.meta.total };
     },
 
-    getCardsByBoardId: async (boardId) => {
-      try {
-        const data = await api
-          .get<{ data: ICard[] }>(`/cards/?boardId=${boardId}`)
-          .then((res) => res?.data?.data);
+    extraActions: (set, get) => ({
+      createCard: async (title, description, boardId) => {
+        set({ isLoading: true });
 
-        set((state) => ({ cardsByBoardId: { ...state.cardsByBoardId, [boardId]: data } }));
-      } catch (error) {
-        toast.error(getMessageError(error));
-      }
-    },
-  }),
+        try {
+          await api
+            .post<{ data: ICard }>("/cards", { title, description, boardId })
+            .then((res) => res?.data?.data);
 
-  name: "CardsStore",
-});
+          await get().fetchPage(1, { boardId, page: 1, limit: get().limit });
+        } catch (error) {
+          toast.error(getMessageError(error));
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+    }),
+
+    name: `CardsStore_${boardId}`,
+  });
+}
+
+function getOrCreateStore(boardId: string) {
+  if (!stores.has(boardId)) {
+    stores.set(boardId, createBoardCardsStore(boardId));
+  }
+
+  return stores.get(boardId)!;
+}
+
+export function refetchBoardCards(boardId: string) {
+  stores.get(boardId)?.getState().fetchPage(1);
+}
+
+export function useCardsStore(boardId?: string) {
+  const id = boardId ?? "";
+  const store = getOrCreateStore(id);
+
+  const state = useStore(store);
+
+  useEffect(() => {
+    if (boardId) {
+      state.fetchPage(1);
+    }
+  }, [boardId]);
+
+  return state;
+}

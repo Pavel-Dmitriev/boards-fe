@@ -4,3 +4,8 @@ export interface ICreateCardFormValues {
   /** Описание карточки */
   description: string;
 }
+
+export interface ICreateCardFormProps {
+  boardId: string;
+  onClose: () => void;
+}

@@ -1,3 +1,4 @@
+import { useInfiniteScroll } from "./useInfiniteScroll";
 import { useIsDark } from "./useIsDark";
 
-export { useIsDark };
+export { useIsDark, useInfiniteScroll };

@@ -6,9 +6,10 @@ import { useParams } from "react-router-dom";
 import { Board } from "./components";
 import PageHeader from "components/PageHeader";
 import { NoData, Spinner } from "components/ui";
-import { useBoardsStore, useCardsStore, useRoomsStore } from "shared/stores";
+import { useBoardsStore, useRoomsStore } from "shared/stores";
 
 import useModalAction from "./useModalAction";
+import { useInfiniteScroll } from "shared/hooks";
 
 /** Страница подробной информации о комнате */
 export function RoomsDetailPage() {
@@ -16,11 +17,22 @@ export function RoomsDetailPage() {
 
   const { room, getRoom } = useRoomsStore();
 
-  const { data: boards, getBoards } = useBoardsStore();
-  const { cardsByBoardId, getCardsByBoardId } = useCardsStore();
+  const { data: boards, getBoards, nextPage, isLoading, page, total, limit } = useBoardsStore();
+
+  const hasMore = page < Math.ceil(total / limit);
 
   const { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal, onOpenCreateCardModal } =
     useModalAction();
+
+  const fetchMoreBoards = () => {
+    if (id) nextPage({ roomId: id });
+  };
+
+  const { triggerRef } = useInfiniteScroll(fetchMoreBoards, {
+    isLoading,
+    hasMore,
+    hasViewport: true,
+  });
 
   useEffect(() => {
     if (id) {
@@ -33,12 +45,6 @@ export function RoomsDetailPage() {
       getBoards(id);
     }
   }, [room]);
-
-  useEffect(() => {
-    if (size(boards) > 0) {
-      Promise.all(boards.map((board) => getCardsByBoardId(board.id)));
-    }
-  }, [boards]);
 
   if (isNil(room)) return <Spinner />;
 
@@ -60,13 +66,14 @@ export function RoomsDetailPage() {
               <Board
                 key={`board_${id}`}
                 {...board}
-                cards={cardsByBoardId[id] ?? []}
                 onEditBoard={() => onOpenEditModal({ id, name, description })}
                 onDeleteBoard={() => onOpenDeleteModal(id)}
                 onCreateCard={() => onOpenCreateCardModal(id)}
               />
             );
           })}
+
+          <div ref={triggerRef} className="h-px w-full" />
         </div>
       ) : (
         <NoData />

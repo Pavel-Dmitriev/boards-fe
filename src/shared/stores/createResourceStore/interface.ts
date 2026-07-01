@@ -27,9 +27,9 @@ export interface IResourceActions {
   /** Загрузить указанную страницу (optionally с доп. параметрами) */
   fetchPage: (page: number, params?: Record<string, any>) => Promise<void>;
   /** Перейти на следующую страницу */
-  nextPage: (params: Record<string, any>) => Promise<void>;
+  nextPage: (params?: Record<string, any>) => Promise<void>;
   /** Перейти на предыдущую страницу */
-  prevPage: (params: Record<string, any>) => Promise<void>;
+  prevPage: (params?: Record<string, any>) => Promise<void>;
   /** Установить лимит элементов на страницу */
   setLimit: (limit: number) => void;
   /** Сбросить состояние до начального */

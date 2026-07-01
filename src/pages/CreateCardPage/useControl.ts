@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router";
 
 import { useBoardsStore, useCardsStore, useRoomsStore } from "shared/stores";
@@ -17,19 +17,20 @@ export function useControl() {
 
   const { data: rooms, getRooms, isLoading: isRoomsLoading } = useRoomsStore();
   const { data: boards, getBoards, isLoading: isBoardsLoading } = useBoardsStore();
-  const { createCard, isLoading } = useCardsStore();
 
   const methods = useForm<IFormData>({
     defaultValues: DEFAULT_VALUES,
   });
   const {
+    control,
     register,
     reset,
-    watch,
     formState: { isValid },
   } = methods;
 
-  const watchRoom = watch("room");
+  const watchRoom = useWatch({ name: "room", control });
+
+  const { createCard, isLoading } = useCardsStore();
 
   const handleRoomMenuOpen = async () => {
     if (rooms.length === 0) {

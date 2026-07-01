@@ -40,10 +40,15 @@ export function createResourceStore<T, ExtraState = {}, ExtraActions = {}>({
         },
 
         nextPage: async (params: Record<string, any> = {}) => {
-          const { page, limit, total, fetchPage } = get();
+          const { page, limit, total, fetchPage, data: previousData } = get();
           const totalPages = Math.ceil(total / limit);
           if (page < totalPages) {
             await fetchPage(page + 1, params);
+
+            set((state) => ({
+              ...state,
+              data: [...previousData, ...state.data],
+            }));
           }
         },
 

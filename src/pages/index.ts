@@ -1,4 +1,3 @@
-import { BoardListPage } from "./BoardListPage";
 import { CreateCardPage } from "./CreateCardPage";
 import { LoginPage } from "./LoginPage";
 import { MyCardsPage } from "./MyCardsPage";
@@ -7,7 +6,6 @@ import { RegisterPage } from "./RegisterPage";
 import { RoomsDetailPage, RoomsListPage } from "./Rooms";
 
 export {
-  BoardListPage,
   CreateCardPage,
   LoginPage,
   MyCardsPage,

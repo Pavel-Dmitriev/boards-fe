@@ -1,18 +1,28 @@
 import { RiAddFill } from "@remixicon/react";
 import clsx from "clsx";
 import { size } from "lodash-es";
-import type { WheelEvent } from "react";
+import { type WheelEvent } from "react";
 
 import Card from "./components/Card";
 import { ItemActions, NoData } from "components/ui";
+import { useCardsStore } from "shared/stores";
+import { useInfiniteScroll } from "shared/hooks";
 
 import type { IBoardProps } from "./interface";
-import type { ICard } from "shared/interfaces";
 
 export default function Board(props: IBoardProps) {
-  const { name, description, cards, owner, onEditBoard, onDeleteBoard, onCreateCard } = props ?? {};
+  const { id: boardId, name, description, owner, onEditBoard, onDeleteBoard, onCreateCard } =
+    props ?? {};
+
+  const { data: cards, total, page, limit, isLoading, nextPage } = useCardsStore(boardId);
 
   const hasCards = size(cards) > 0;
+  const hasMore = page < Math.ceil(total / limit);
+
+  const { triggerRef, containerRef } = useInfiniteScroll(
+    () => nextPage(),
+    { isLoading, hasMore, hasViewport: false },
+  );
 
   const handleCardListWheel = (e: WheelEvent<HTMLDivElement>) => {
     e.currentTarget.scrollLeft += e.deltaY;
@@ -27,7 +37,7 @@ export default function Board(props: IBoardProps) {
         </div>
         <p className="text-neutral/70 mb-4 flex-1 text-sm">{description}</p>
         <div className="flex items-end gap-x-4">
-          <span className="badge text-xs">Всего карточек: {cards?.length ?? 0}</span>
+          <span className="badge text-xs">Всего карточек: {total ?? 0}</span>
           <button
             title="Добавить карточку"
             type="button"
@@ -46,14 +56,20 @@ export default function Board(props: IBoardProps) {
       </div>
       <div className="h-full rounded-full bg-gray-200" />
       <div
+        ref={containerRef}
         className={clsx(
-          "scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-200 active:scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-300 scrollbar-thumb-rounded-full dark:scrollbar-thumb-gray-500 hover:dark:scrollbar-thumb-gray-400 active:dark:scrollbar-thumb-gray-400 flex gap-3 overflow-x-auto pb-1",
+          "scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-200 active:scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-300 scrollbar-thumb-rounded-full dark:scrollbar-thumb-gray-500 hover:dark:scrollbar-thumb-gray-400 active:dark:scrollbar-thumb-gray-400 flex gap-3 overflow-x-auto",
           { "justify-center": !hasCards },
         )}
         onWheel={handleCardListWheel}
       >
         {hasCards ? (
-          cards?.map((card: ICard) => <Card key={card?.id} card={card} />)
+          <>
+            {cards.map((card) => (
+              <Card key={card?.id} card={card} />
+            ))}
+            {hasMore && <div ref={triggerRef} className="shrink-0 w-px" />}
+          </>
         ) : (
           <NoData className="mt-0" size="md" />
         )}

@@ -3,22 +3,19 @@ import { useCardsStore } from "shared/stores";
 
 import { DEFAULT_VALUES } from "./constants";
 
-import type { ICreateCardFormValues } from "./interface";
+import type { ICreateCardFormProps, ICreateCardFormValues } from "./interface";
 
 /**
  * Форма создания карточки.
  * Содержит поля «Название» и «Описание», при сабмите вызывает createCard.
  */
-export default function CreateCardForm({ boardId, onClose }: any) {
-  const { createCard, getCardsByBoardId } = useCardsStore();
+export default function CreateCardForm({ boardId, onClose }: ICreateCardFormProps) {
+  const { createCard } = useCardsStore(boardId);
 
-  /** Метод, вызываемый при отправке формы
-   * Вызывает createCard с данными из формы, а затем обновляет список карточек для доски через getCardsByBoardId.
-   */
+  /** Метод, вызываемый при отправке формы */
   const onSubmit = async ({ title, description }: ICreateCardFormValues) => {
     if (boardId) {
       await createCard(title, description, Number(boardId));
-      getCardsByBoardId(boardId);
     }
   };
 
