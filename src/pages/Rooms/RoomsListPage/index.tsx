@@ -6,9 +6,9 @@ import { RoomsCard } from "./components";
 import PageHeader from "components/PageHeader";
 import { NoData, Spinner } from "components/ui";
 import { useRoomsStore } from "shared/stores";
-import { useInfiniteScroll } from "shared/hooks";
 
 import useModalAction from "./useModalAction";
+import { useInfiniteScroll } from "shared/hooks";
 
 /**
  * Страница списка комнат.
@@ -16,8 +16,16 @@ import useModalAction from "./useModalAction";
  * При пустом списке и отсутствии загрузки показывает NoData.
  */
 export function RoomsListPage() {
-  const { data: rooms, getRooms, nextPage, isLoading, page, limit, total, joinRoom } =
-    useRoomsStore((state) => state);
+  const {
+    data: rooms,
+    getRooms,
+    nextPage,
+    isLoading,
+    page,
+    limit,
+    total,
+    joinRoom,
+  } = useRoomsStore((state) => state);
 
   const { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal } = useModalAction();
 

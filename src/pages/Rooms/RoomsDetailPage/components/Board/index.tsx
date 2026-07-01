@@ -6,23 +6,32 @@ import { type WheelEvent } from "react";
 import Card from "./components/Card";
 import { ItemActions, NoData } from "components/ui";
 import { useCardsStore } from "shared/stores";
+
 import { useInfiniteScroll } from "shared/hooks";
 
 import type { IBoardProps } from "./interface";
 
 export default function Board(props: IBoardProps) {
-  const { id: boardId, name, description, owner, onEditBoard, onDeleteBoard, onCreateCard } =
-    props ?? {};
+  const {
+    id: boardId,
+    name,
+    description,
+    owner,
+    onEditBoard,
+    onDeleteBoard,
+    onCreateCard,
+  } = props ?? {};
 
   const { data: cards, total, page, limit, isLoading, nextPage } = useCardsStore(boardId);
 
   const hasCards = size(cards) > 0;
   const hasMore = page < Math.ceil(total / limit);
 
-  const { triggerRef, containerRef } = useInfiniteScroll(
-    () => nextPage(),
-    { isLoading, hasMore, hasViewport: false },
-  );
+  const { triggerRef, containerRef } = useInfiniteScroll(() => nextPage(), {
+    isLoading,
+    hasMore,
+    hasViewport: false,
+  });
 
   const handleCardListWheel = (e: WheelEvent<HTMLDivElement>) => {
     e.currentTarget.scrollLeft += e.deltaY;
@@ -68,7 +77,7 @@ export default function Board(props: IBoardProps) {
             {cards.map((card) => (
               <Card key={card?.id} card={card} />
             ))}
-            {hasMore && <div ref={triggerRef} className="shrink-0 w-px" />}
+            {hasMore && <div ref={triggerRef} className="w-px shrink-0" />}
           </>
         ) : (
           <NoData className="mt-0" size="md" />
