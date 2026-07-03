@@ -10,7 +10,7 @@ import type { IBoardsExtraActions } from "./interface";
 import type { IBoard } from "shared/interfaces";
 
 export const useBoardsStore = createResourceStore<IBoard, {}, IBoardsExtraActions>({
-  initialLimit: 5,
+  initialLimit: 20,
   fetchFn: async ({ page, limit, roomId }) => {
     const res = await api.get(`/boards?roomId=${roomId}&page=${page}&limit=${limit}`);
 

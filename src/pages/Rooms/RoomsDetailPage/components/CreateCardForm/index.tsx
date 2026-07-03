@@ -10,12 +10,12 @@ import type { ICreateCardFormProps, ICreateCardFormValues } from "./interface";
  * Содержит поля «Название» и «Описание», при сабмите вызывает createCard.
  */
 export default function CreateCardForm({ boardId, onClose }: ICreateCardFormProps) {
-  const { createCard } = useCardsStore(boardId);
+  const { createCard } = useCardsStore();
 
   /** Метод, вызываемый при отправке формы */
   const onSubmit = async ({ title, description }: ICreateCardFormValues) => {
     if (boardId) {
-      await createCard(title, description, Number(boardId));
+      await createCard(title, description, boardId);
     }
   };
 

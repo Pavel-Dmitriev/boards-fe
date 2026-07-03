@@ -1,6 +1,4 @@
-import { useEffect } from "react";
 import { toast } from "sonner";
-import { useStore } from "zustand";
 
 import { createResourceStore } from "../createResourceStore";
 
@@ -8,76 +6,116 @@ import { api } from "shared/api";
 
 import { getMessageError } from "shared/utils";
 
-import type { ICard } from "shared/interfaces";
+import type { ICardsExtraActions, ICardsExtraState } from "./interface";
+import type { ICard, IComment } from "shared/interfaces";
 
-const stores = new Map<string, ReturnType<typeof createBoardCardsStore>>();
+export const useCardsStore = createResourceStore<ICard, ICardsExtraState, ICardsExtraActions>({
+  initialLimit: 10,
 
-function createBoardCardsStore(boardId: string) {
-  return createResourceStore<
-    ICard,
-    object,
-    { createCard: (title: string, description: string, boardId: number) => Promise<void> }
-  >({
-    initialLimit: 5,
-    fetchFn: async (params) => {
-      const { page, limit } = params ?? {};
-      const id = (params?.boardId || boardId) as string;
+  fetchFn: async ({ page, limit, boardId }) => {
+    const response = await api
+      .get<{
+        data: ICard[];
+        meta: { total: number };
+      }>(`/cards?boardId=${boardId}&page=${page}&limit=${limit}`)
+      .then((res) => res?.data);
 
-      const response = await api
-        .get<{
-          data: ICard[];
-          meta: { total: number };
-        }>(`/cards/?boardId=${id}&page=${page}&limit=${limit}`)
-        .then((res) => res?.data);
+    return { data: response.data, total: response.meta.total };
+  },
 
-      return { data: response.data, total: response.meta.total };
+  extraState: {
+    comments: [],
+    commentsLoading: false,
+  },
+
+  extraActions: (set, get) => ({
+    getCards: async (boardId) => {
+      await get().fetchPage(1, { boardId });
     },
 
-    extraActions: (set, get) => ({
-      createCard: async (title, description, boardId) => {
-        set({ isLoading: true });
+    createCard: async (title, description, boardId) => {
+      set({ isLoading: true });
 
-        try {
-          await api
-            .post<{ data: ICard }>("/cards", { title, description, boardId })
-            .then((res) => res?.data?.data);
+      try {
+        await api.post("/cards", { title, description, boardId: Number(boardId) });
 
-          await get().fetchPage(1, { boardId, page: 1, limit: get().limit });
-        } catch (error) {
-          toast.error(getMessageError(error));
-        } finally {
-          set({ isLoading: false });
-        }
-      },
-    }),
+        await get().fetchPage(1, { boardId, page: 1, limit: get().limit });
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
 
-    name: `CardsStore_${boardId}`,
-  });
-}
+    updateCard: async (cardId, data) => {
+      set({ isLoading: true });
 
-function getOrCreateStore(boardId: string) {
-  if (!stores.has(boardId)) {
-    stores.set(boardId, createBoardCardsStore(boardId));
-  }
+      try {
+        const res = await api
+          .put<{ data: ICard }>(`/cards/${cardId}`, data)
+          .then((res) => res?.data);
 
-  return stores.get(boardId)!;
-}
+        set((state) => ({
+          ...state,
+          data: state.data.map((card) => (card.id === cardId ? { ...card, ...res.data } : card)),
+        }));
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
 
-export function refetchBoardCards(boardId: string) {
-  stores.get(boardId)?.getState().fetchPage(1);
-}
+    deleteCard: async (cardId) => {
+      try {
+        await api.delete(`/cards/${cardId}`);
 
-export function useCardsStore(boardId?: string) {
-  const id = boardId ?? "";
-  const store = getOrCreateStore(id);
+        set((state) => ({
+          ...state,
+          data: state.data.filter((card) => card.id !== cardId),
+          total: state.total - 1,
+        }));
+      } catch (error) {
+        toast.error(getMessageError(error));
+      }
+    },
 
-  const state = useStore(store);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    toggleVote: async (_cardId) => {},
 
-  useEffect(() => {
-    if (boardId) {
-      state.fetchPage(1);
-    }
-  }, [boardId]);
+    fetchComments: async (cardId) => {
+      set({ commentsLoading: true });
 
-  return state;
-}
+      try {
+        const res = await api
+          .get<{ data: IComment[] }>(`/comments?cardId=${cardId}`)
+          .then((res) => res?.data);
+
+        set({ comments: res.data });
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ commentsLoading: false });
+      }
+    },
+
+    createComment: async (cardId, content, parentId) => {
+      try {
+        const res = await api
+          .post<{
+            data: IComment;
+          }>(`/comments`, { content, cardId, parentId })
+          .then((res) => res?.data);
+
+        set((state) => ({
+          ...state,
+          comments: [...state.comments, res.data],
+        }));
+      } catch (error) {
+        toast.error(getMessageError(error));
+      }
+    },
+  }),
+
+  name: "CardsStore",
+});

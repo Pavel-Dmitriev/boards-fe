@@ -1,15 +1,11 @@
 import { RiChat1Line, RiHeartLine } from "@remixicon/react";
 import clsx from "clsx";
 
-import { STATUS } from "./status";
+import { STATUS } from "shared/constants";
 
 import type { ICard } from "shared/interfaces";
 
-interface CardProps {
-  card: ICard;
-}
-
-export default function Card({ card }: CardProps) {
+export default function Card({ card }: { card: ICard }) {
   const status = STATUS[card.status];
 
   return (

@@ -3,4 +3,4 @@ export { useAuthStore } from "./auth";
 export { useUsersStore } from "./users";
 export { useRoomsStore } from "./rooms";
 export { useBoardsStore } from "./boards";
-export { useCardsStore, refetchBoardCards } from "./cards";
+export { useCardsStore } from "./cards";

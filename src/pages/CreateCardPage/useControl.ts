@@ -57,7 +57,7 @@ export function useControl() {
   }));
 
   const onSubmit = async ({ title, description, board }: IFormData) => {
-    await createCard(title, description, Number(board?.value));
+    await createCard(title, description, String(board?.value));
     reset();
     navigate(`/rooms/${watchRoom?.value}`);
   };

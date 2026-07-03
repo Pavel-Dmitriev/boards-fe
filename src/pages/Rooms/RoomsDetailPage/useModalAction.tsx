@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useParams } from "react-router";
 import { useShallow } from "zustand/shallow";
 
-import { CreateBoardForm, CreateCardForm, EditBoardForm } from "./components";
+import { CreateBoardForm, EditBoardForm } from "./components";
 import { Button } from "components/ui/Button";
 import { useModalStore } from "components/ui/Modal/store";
 import { useBoardsStore } from "shared/stores";
@@ -60,18 +60,6 @@ function useModalAction() {
     });
   };
 
-  /** Открывает модалку создания карточки */
-  const onOpenCreateCardModal = (boardId: string) => {
-    keyRef.current += 1;
-
-    openFormModal({
-      title: "Добавить карточку",
-      formId: "card-form",
-      submitText: "Добавить",
-      children: <CreateCardForm key={keyRef.current} boardId={boardId} onClose={close} />,
-    });
-  };
-
   /**
    * Открывает модалку редактирования доски
    * @param board — данные доски (id, name, description)
@@ -125,7 +113,7 @@ function useModalAction() {
     });
   };
 
-  return { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal, onOpenCreateCardModal };
+  return { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal };
 }
 
 export default useModalAction;

@@ -20,6 +20,8 @@ export interface ICard {
   likes_count?: number;
   /** Количество комментариев */
   comments_count?: number;
+  /** Проголосовал ли текущий пользователь */
+  has_voted?: boolean;
   /** Дата создания */
   created_at: string;
   /** Дата обновления */

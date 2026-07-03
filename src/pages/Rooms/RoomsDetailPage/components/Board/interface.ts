@@ -5,6 +5,6 @@ export interface IBoardProps extends IBoard {
   onEditBoard?: () => void;
   /** Удалить доску */
   onDeleteBoard?: () => void;
-  /** Создать карточку */
-  onCreateCard?: () => void;
+  /** Перейти на страницу карточек доски */
+  onGoBoard?: () => void;
 }

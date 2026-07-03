@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router";
 import { Frame } from "components/layout/Frame";
 
 import {
+  BoardDetailPage,
   CreateCardPage,
   LoginPage,
   MyCardsPage,
@@ -42,6 +43,14 @@ export const router = createBrowserRouter([
             element: (
               <ProtectedRoute>
                 <RoomsDetailPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: ":roomId/boards/:boardId",
+            element: (
+              <ProtectedRoute>
+                <BoardDetailPage />
               </ProtectedRoute>
             ),
           },

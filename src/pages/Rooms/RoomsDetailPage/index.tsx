@@ -1,7 +1,7 @@
 import isNil from "lodash-es/isNil";
 import size from "lodash-es/size";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Board } from "./components";
 import PageHeader from "components/PageHeader";
@@ -14,6 +14,7 @@ import { useInfiniteScroll } from "shared/hooks";
 /** Страница подробной информации о комнате */
 export function RoomsDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { room, getRoom } = useRoomsStore();
 
@@ -21,8 +22,7 @@ export function RoomsDetailPage() {
 
   const hasMore = page < Math.ceil(total / limit);
 
-  const { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal, onOpenCreateCardModal } =
-    useModalAction();
+  const { onOpenCreateModal, onOpenEditModal, onOpenDeleteModal } = useModalAction();
 
   const fetchMoreBoards = () => {
     if (id) nextPage({ roomId: id });
@@ -46,6 +46,10 @@ export function RoomsDetailPage() {
     }
   }, [room]);
 
+  const handleGoBoard = (boardId: string) => {
+    navigate(`/rooms/${id}/boards/${boardId}`);
+  };
+
   if (isNil(room)) return <Spinner />;
 
   return (
@@ -58,7 +62,7 @@ export function RoomsDetailPage() {
       />
 
       {size(boards) > 0 ? (
-        <div className="grid gap-y-6">
+        <div className="grid grid-cols-2 gap-6">
           {boards?.map((board) => {
             const { id, name, description } = board ?? {};
 
@@ -68,16 +72,16 @@ export function RoomsDetailPage() {
                 {...board}
                 onEditBoard={() => onOpenEditModal({ id, name, description })}
                 onDeleteBoard={() => onOpenDeleteModal(id)}
-                onCreateCard={() => onOpenCreateCardModal(id)}
+                onGoBoard={() => handleGoBoard(id)}
               />
             );
           })}
-
-          <div ref={triggerRef} className="h-px w-full" />
         </div>
       ) : (
         <NoData />
       )}
+
+      <div ref={triggerRef} className="h-px w-full" />
     </>
   );
 }
