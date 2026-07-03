@@ -47,7 +47,7 @@ export function RoomsDetailPage() {
   }, [room]);
 
   const handleGoBoard = (boardId: string) => {
-    navigate(`/rooms/${id}/boards/${boardId}`);
+    navigate(`/boards/${boardId}?roomId=${id}`);
   };
 
   if (isNil(room)) return <Spinner />;

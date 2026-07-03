@@ -6,15 +6,19 @@ import { api } from "shared/api";
 
 import { getMessageError } from "shared/utils";
 
-import type { IBoardsExtraActions } from "./interface";
+import type { IBoardsExtraActions, IBoardsExtraState } from "./interface";
 import type { IBoard } from "shared/interfaces";
 
-export const useBoardsStore = createResourceStore<IBoard, {}, IBoardsExtraActions>({
+export const useBoardsStore = createResourceStore<IBoard, IBoardsExtraState, IBoardsExtraActions>({
   initialLimit: 20,
   fetchFn: async ({ page, limit, roomId }) => {
     const res = await api.get(`/boards?roomId=${roomId}&page=${page}&limit=${limit}`);
 
     return { data: res.data.data, total: res.data.meta?.total };
+  },
+
+  extraState: {
+    board: null,
   },
 
   extraActions: (set, get): IBoardsExtraActions => ({
@@ -33,6 +37,20 @@ export const useBoardsStore = createResourceStore<IBoard, {}, IBoardsExtraAction
     },
 
     getBoards: (roomId: string) => get().fetchPage(1, { roomId }),
+
+    getBoard: async (boardId: string) => {
+      set({ isLoading: true });
+
+      try {
+        const res = await api.get<{ data: IBoard }>(`/boards/${boardId}`);
+
+        set({ board: res.data.data });
+      } catch (error) {
+        toast.error(getMessageError(error));
+      } finally {
+        set({ isLoading: false });
+      }
+    },
 
     updateBoard: async (boardId, name, description, roomId) => {
       set({ isLoading: true });

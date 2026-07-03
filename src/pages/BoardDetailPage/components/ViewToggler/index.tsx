@@ -1,19 +1,26 @@
 import { RiLayout2Line, RiListCheck } from "@remixicon/react";
 import clsx from "clsx";
 
+import { VIEW_MODE } from "pages/BoardDetailPage/constants";
+
 import type { IViewTogglerProps } from "./interface";
 
-export default function ViewToggler({ viewMode, onChange }: IViewTogglerProps) {
+export default function ViewToggler({ viewMode, onChange, className }: IViewTogglerProps) {
   return (
-    <div className="flex overflow-hidden rounded-lg border border-gray-200 dark:border-white/10">
+    <div
+      className={clsx(
+        "flex overflow-hidden rounded-lg border border-gray-200 dark:border-white/10",
+        className,
+      )}
+    >
       <button
         type="button"
-        onClick={() => onChange("list")}
+        onClick={() => onChange(VIEW_MODE.LIST)}
         className={clsx(
           "flex cursor-pointer items-center gap-1 px-3 py-1.5 text-xs transition-colors",
           {
-            "bg-purple-500 text-white": viewMode === "list",
-            "text-gray-500 hover:bg-gray-100 dark:hover:bg-white/10": viewMode !== "list",
+            "bg-purple-500 text-white": viewMode === VIEW_MODE.LIST,
+            "text-gray-500 hover:bg-gray-100 dark:hover:bg-white/10": viewMode !== VIEW_MODE.LIST,
           },
         )}
       >
@@ -22,12 +29,12 @@ export default function ViewToggler({ viewMode, onChange }: IViewTogglerProps) {
       </button>
       <button
         type="button"
-        onClick={() => onChange("grid")}
+        onClick={() => onChange(VIEW_MODE.GRID)}
         className={clsx(
           "flex cursor-pointer items-center gap-1 px-3 py-1.5 text-xs transition-colors",
           {
-            "bg-purple-500 text-white": viewMode === "grid",
-            "text-gray-500 hover:bg-gray-100 dark:hover:bg-white/10": viewMode !== "grid",
+            "bg-purple-500 text-white": viewMode === VIEW_MODE.GRID,
+            "text-gray-500 hover:bg-gray-100 dark:hover:bg-white/10": viewMode !== VIEW_MODE.GRID,
           },
         )}
       >

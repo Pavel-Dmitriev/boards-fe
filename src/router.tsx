@@ -26,7 +26,6 @@ export const router = createBrowserRouter([
     children: [
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
-      { path: "/my-cards", element: <MyCardsPage /> },
       {
         path: "/rooms",
         children: [
@@ -46,23 +45,32 @@ export const router = createBrowserRouter([
               </ProtectedRoute>
             ),
           },
+        ],
+      },
+      {
+        path: "/boards/:boardId",
+        element: (
+          <ProtectedRoute>
+            <BoardDetailPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/cards",
+        children: [
           {
-            path: ":roomId/boards/:boardId",
+            index: true,
+            element: <MyCardsPage />,
+          },
+          {
+            path: "create",
             element: (
               <ProtectedRoute>
-                <BoardDetailPage />
+                <CreateCardPage />
               </ProtectedRoute>
             ),
           },
         ],
-      },
-      {
-        path: "/card/create",
-        element: (
-          <ProtectedRoute>
-            <CreateCardPage />
-          </ProtectedRoute>
-        ),
       },
       {
         path: "/profile",

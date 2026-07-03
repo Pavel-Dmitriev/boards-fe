@@ -7,11 +7,11 @@ export const MENU = [
   {
     key: "cards",
     title: "Мои карточки",
-    path: "my-cards",
+    path: "/cards",
   },
   {
     key: "create-card",
     title: "Создать карточку",
-    path: "card/create",
+    path: "/cards/create",
   },
 ];

@@ -1,3 +1,5 @@
+import type { IBoard } from "shared/interfaces";
+
 /**
  * Дополнительные действия стора досок.
  * Расширяет базовые методы пагинации (fetchPage, nextPage и т.д.),
@@ -8,6 +10,8 @@ export interface IBoardsExtraActions {
   createBoard: (name: string, description: string, roomId: string) => Promise<void>;
   /** Загрузить доски комнаты (обёртка над fetchPage с roomId) */
   getBoards: (roomId: string) => Promise<void>;
+  /** Загрузить одну доску по ID */
+  getBoard: (boardId: string) => Promise<void>;
   /** Обновить название и описание доски и перезапросить текущую страницу */
   updateBoard: (
     boardId: string,
@@ -17,4 +21,9 @@ export interface IBoardsExtraActions {
   ) => Promise<void>;
   /** Удалить доску и перезапросить текущую страницу */
   deleteBoard: (boardId: string, roomId: string) => Promise<void>;
+}
+
+export interface IBoardsExtraState {
+  /** Текущая выбранная доска */
+  board: IBoard | null;
 }
