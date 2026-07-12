@@ -1,10 +1,14 @@
 import type { IMeta } from "shared/interfaces/IMeta";
 
 /** Функция обновления состояния стора */
-export type SetState<T> = (
-  partial: Partial<T> | ((state: T) => Partial<T>),
-  replace?: boolean,
-) => void;
+export type SetState<T> = {
+  (
+    partial: T | Partial<T> | ((state: T) => T | Partial<T>),
+    replace?: false,
+    actionName?: string,
+  ): void;
+  (state: T | ((state: T) => T), replace: true, actionName?: string): void;
+};
 
 /** Функция получения текущего состояния стора */
 export type GetState<T> = () => T;

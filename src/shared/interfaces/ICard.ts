@@ -1,3 +1,5 @@
+import type { IOwner } from "./IOwner";
+
 import type { CardStatusType } from "shared/types/CardStatusType";
 
 /** Интерфейс карточки  */
@@ -8,24 +10,22 @@ export interface ICard {
   title: string;
   /** Описание */
   description: string;
-  /** Идентификатор принадлежности карточки к доске */
-  board_id: string;
-  /** Идентификатор категории */
-  category_id: string | null;
-  /** Идентификатор автора карточки */
-  author_id: string;
+  /** Порядок карточки */
+  order: number;
+  /** Владелец карточки */
+  owner: IOwner;
   /** Статус */
   status: CardStatusType;
-  /** Количество лайков */
-  likes_count?: number;
+  /** Количество голосов */
+  votesCount?: number;
   /** Количество комментариев */
-  comments_count?: number;
+  commentsCount?: number;
   /** Проголосовал ли текущий пользователь */
-  has_voted?: boolean;
+  hasVoted: boolean;
   /** Дата создания */
-  created_at: string;
+  createdAt: string;
   /** Дата обновления */
-  updated_at: string;
+  updatedAt: string;
   /** Является участником комнаты */
   isMember: boolean;
 }

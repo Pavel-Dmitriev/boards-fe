@@ -6,7 +6,7 @@ import { api } from "shared/api";
 
 import { getMessageError } from "shared/utils";
 
-import type { ICardsExtraActions, ICardsExtraState } from "./interface";
+import type { ICardsExtraActions, ICardsExtraState, IVoteData } from "./interface";
 import type { ICard, IComment } from "shared/interfaces";
 
 export const useCardsStore = createResourceStore<ICard, ICardsExtraState, ICardsExtraActions>({
@@ -25,7 +25,7 @@ export const useCardsStore = createResourceStore<ICard, ICardsExtraState, ICards
 
   extraState: {
     comments: [],
-    commentsLoading: false,
+    isCommentsLoading: false,
   },
 
   extraActions: (set, get) => ({
@@ -34,7 +34,7 @@ export const useCardsStore = createResourceStore<ICard, ICardsExtraState, ICards
     },
 
     createCard: async (title, description, boardId) => {
-      set({ isLoading: true });
+      set({ isLoading: true }, false, "createCard/start");
 
       try {
         await api.post("/cards", { title, description, boardId: Number(boardId) });
@@ -43,26 +43,30 @@ export const useCardsStore = createResourceStore<ICard, ICardsExtraState, ICards
       } catch (error) {
         toast.error(getMessageError(error));
       } finally {
-        set({ isLoading: false });
+        set({ isLoading: false }, false, "createCard/end");
       }
     },
 
     updateCard: async (cardId, data) => {
-      set({ isLoading: true });
+      set({ isLoading: true }, false, "updateCard/start");
 
       try {
         const res = await api
           .put<{ data: ICard }>(`/cards/${cardId}`, data)
           .then((res) => res?.data);
 
-        set((state) => ({
-          ...state,
-          data: state.data.map((card) => (card.id === cardId ? { ...card, ...res.data } : card)),
-        }));
+        set(
+          (state) => ({
+            ...state,
+            data: state.data.map((card) => (card.id === cardId ? { ...card, ...res.data } : card)),
+          }),
+          false,
+          "updateCard/success",
+        );
       } catch (error) {
         toast.error(getMessageError(error));
       } finally {
-        set({ isLoading: false });
+        set({ isLoading: false }, false, "updateCard/end");
       }
     },
 
@@ -70,32 +74,58 @@ export const useCardsStore = createResourceStore<ICard, ICardsExtraState, ICards
       try {
         await api.delete(`/cards/${cardId}`);
 
-        set((state) => ({
-          ...state,
-          data: state.data.filter((card) => card.id !== cardId),
-          total: state.total - 1,
-        }));
+        set(
+          (state) => ({
+            ...state,
+            data: state.data.filter((card) => card.id !== cardId),
+            total: state.total - 1,
+          }),
+          false,
+          "deleteCard",
+        );
       } catch (error) {
         toast.error(getMessageError(error));
       }
     },
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    toggleVote: async (_cardId) => {},
+    toggleVote: async (cardId) => {
+      try {
+        const res = await api
+          .post<{ data: IVoteData }>(`/cards/${cardId}/vote`)
+          .then((res) => res?.data);
+
+        set(
+          (state) => ({
+            ...state,
+            data: state.data.map((card) => {
+              if (card.id === cardId) {
+                return { ...card, votesCount: res.data.votesCount, hasVoted: res.data.voted };
+              }
+
+              return card;
+            }),
+          }),
+          false,
+          "toggleVote",
+        );
+      } catch (error) {
+        toast.error(getMessageError(error));
+      }
+    },
 
     fetchComments: async (cardId) => {
-      set({ commentsLoading: true });
+      set({ isCommentsLoading: true }, false, "fetchComments/start");
 
       try {
         const res = await api
           .get<{ data: IComment[] }>(`/comments?cardId=${cardId}`)
           .then((res) => res?.data);
 
-        set({ comments: res.data });
+        set({ comments: res.data }, false, "fetchComments/success");
       } catch (error) {
         toast.error(getMessageError(error));
       } finally {
-        set({ commentsLoading: false });
+        set({ isCommentsLoading: false }, false, "fetchComments/end");
       }
     },
 
@@ -107,10 +137,14 @@ export const useCardsStore = createResourceStore<ICard, ICardsExtraState, ICards
           }>(`/comments`, { content, cardId, parentId })
           .then((res) => res?.data);
 
-        set((state) => ({
-          ...state,
-          comments: [...state.comments, res.data],
-        }));
+        set(
+          (state) => ({
+            ...state,
+            comments: [...state.comments, res.data],
+          }),
+          false,
+          "createComment",
+        );
       } catch (error) {
         toast.error(getMessageError(error));
       }

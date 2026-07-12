@@ -50,10 +50,13 @@ export const useAuthStore = create<IState & IAction>()(
       },
 
       logout: async () => {
-        await auth.logout();
-        setAccessToken(null);
-        localStorage.removeItem("refreshToken");
-        set({ user: null, isAuthenticated: false }, undefined, "auth/logout");
+        try {
+          await auth.logout();
+        } finally {
+          setAccessToken(null);
+          localStorage.removeItem("refreshToken");
+          set({ user: null, isAuthenticated: false }, undefined, "auth/logout");
+        }
       },
 
       checkAuth: async () => {
@@ -77,12 +80,10 @@ export const useAuthStore = create<IState & IAction>()(
           setAccessToken(accessToken);
           localStorage.setItem("refreshToken", newRefreshToken);
           set({ user, isAuthenticated: true }, undefined, "auth/checkAuth");
-        } catch (error) {
+        } catch {
           setAccessToken(null);
           localStorage.removeItem("refreshToken");
           set({ user: null, isAuthenticated: false });
-
-          toast.error(getMessageError(error));
         } finally {
           set({ isLoading: false });
         }

@@ -7,7 +7,7 @@ import binokl from "assets/binokl.avif";
 import type { INoDataProps } from "./interface";
 
 /** Компонент показывает сообщение об отсутствии данных */
-export function NoData({ className, size = "xl" }: INoDataProps) {
+export function NoData({ label = "Нет данных", className, size = "xl" }: INoDataProps) {
   return (
     <div
       className={twMerge(
@@ -33,7 +33,7 @@ export function NoData({ className, size = "xl" }: INoDataProps) {
           "text-xs": size === "xs",
         })}
       >
-        Нет данных
+        {label}
       </p>
     </div>
   );

@@ -1,18 +1,18 @@
 import { RiCloseLine } from "@remixicon/react";
 import clsx from "clsx";
-import { useEffect } from "react";
+import { type ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 import { Content } from "./Content";
 import { useModalStore } from "./store";
 
-import type { IModalProps } from "./interface";
-
 /**
  * Модальное окно, которое отображается поверх всего контента. Управляется через глобальный стейт `useModalStore`.
  */
-export function Modal({ className }: IModalProps) {
+export function Modal() {
   const { isOpen, config, close } = useModalStore();
+
+  const className = config?.className;
 
   const contentProps = {
     content: config?.children,
@@ -20,6 +20,14 @@ export function Modal({ className }: IModalProps) {
     className,
     onClose: config?.onClose,
   };
+
+  const size = config?.size || "lg";
+  const title =
+    typeof config?.title === "string" ? (
+      <h2 className="font-semibold">{config.title}</h2>
+    ) : (
+      (config?.title as ReactNode)
+    );
 
   useEffect(() => {
     if (!isOpen) return;
@@ -43,16 +51,19 @@ export function Modal({ className }: IModalProps) {
       )}
     >
       <div
-        className={clsx(
-          "absolute inset-0 bg-black/60 transition-opacity duration-200",
-          isOpen ? "opacity-100" : "opacity-0",
-        )}
+        className={clsx("absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-200", {
+          "opacity-100": isOpen,
+        })}
         onClick={close}
       />
       <div
         className={clsx(
-          "border-border relative mx-4 w-full max-w-lg rounded-xl border bg-white p-6 shadow-2xl transition-all duration-200 dark:bg-[#120d2a]",
-          isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0",
+          "border-border relative mx-4 w-full scale-95 rounded-xl border bg-white p-6 opacity-0 shadow-2xl transition-all duration-200 dark:bg-[#120d2a]",
+          {
+            "scale-100 opacity-100": isOpen,
+            "max-w-lg": size === "lg",
+            "max-w-3xl": size === "3xl",
+          },
         )}
       >
         {/* Заголовок и кнопка закрытия */}
@@ -63,7 +74,7 @@ export function Modal({ className }: IModalProps) {
               className?.header,
             )}
           >
-            <h2 className="font-semibold">{config.title}</h2>
+            {title}
 
             <form method="dialog" onSubmit={close} className="flex">
               <button type="submit" className="group cursor-pointer transition-colors">

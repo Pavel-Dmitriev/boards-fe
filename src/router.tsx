@@ -4,14 +4,14 @@ import { createBrowserRouter } from "react-router";
 import { Frame } from "components/layout/Frame";
 
 import {
-  BoardDetailPage,
+  BoardsPage,
+  CardsPage,
   CreateCardPage,
   LoginPage,
   MyCardsPage,
   ProfilePage,
   RegisterPage,
-  RoomsDetailPage,
-  RoomsListPage,
+  RoomsPage,
 } from "./pages";
 import { ProtectedRoute } from "components/ProtectedRoute";
 
@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
             index: true,
             element: (
               <ProtectedRoute>
-                <RoomsListPage />
+                <RoomsPage />
               </ProtectedRoute>
             ),
           },
@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
             path: ":id",
             element: (
               <ProtectedRoute>
-                <RoomsDetailPage />
+                <BoardsPage />
               </ProtectedRoute>
             ),
           },
@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
         path: "/boards/:boardId",
         element: (
           <ProtectedRoute>
-            <BoardDetailPage />
+            <CardsPage />
           </ProtectedRoute>
         ),
       },

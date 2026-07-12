@@ -48,7 +48,6 @@ export function Label(props: ILabelProps) {
 
       <div
         className={clsx(
-          childrenWrapperClassName,
           "flex max-w-full items-center self-start rounded-lg border border-gray-300 bg-white outline-offset-2 focus-within:outline-1",
           "has-disabled:border-gray-100 has-disabled:bg-gray-100",
           {
@@ -60,6 +59,7 @@ export function Label(props: ILabelProps) {
           Boolean(text) && {
             "w-33": type === "number",
           },
+          childrenWrapperClassName,
         )}
       >
         {children}

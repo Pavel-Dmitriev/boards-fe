@@ -26,5 +26,12 @@ export interface ICardsExtraState {
   /** Комментарии текущей карточки */
   comments: IComment[];
   /** Флаг загрузки комментариев */
-  commentsLoading: boolean;
+  isCommentsLoading: boolean;
+}
+
+export interface IVoteData {
+  /** Проголосовал ли пользователь за карточку */
+  voted: boolean;
+  /** Количество голосов карточки */
+  votesCount: number;
 }

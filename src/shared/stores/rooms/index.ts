@@ -24,7 +24,10 @@ export const useRoomsStore = createResourceStore<IRoom, IRoomsExtraState, IRooms
   },
 
   extraActions: (set, get): IRoomsExtraActions => ({
-    getRooms: () => get().fetchPage(get().page ?? 1),
+    getRooms: async () => {
+      get().reset();
+      await get().fetchPage(1);
+    },
 
     getRoom: async (id) => {
       set({ isLoading: true });
