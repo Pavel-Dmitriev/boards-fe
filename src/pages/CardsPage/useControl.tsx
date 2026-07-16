@@ -120,5 +120,6 @@ export function useControl() {
     onOpenModal: handleOpenModal,
     onCreateCard: handleCreateCard,
     onGoBack: handleGoBack,
+    toggleVote,
   };
 }

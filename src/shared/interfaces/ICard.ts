@@ -21,7 +21,7 @@ export interface ICard {
   /** Количество комментариев */
   commentsCount?: number;
   /** Проголосовал ли текущий пользователь */
-  hasVoted: boolean;
+  voted: boolean;
   /** Дата создания */
   createdAt: string;
   /** Дата обновления */

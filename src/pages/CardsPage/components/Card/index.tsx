@@ -1,5 +1,6 @@
-import { RiChat1Line, RiHeartLine } from "@remixicon/react";
+import { RiChat1Line, RiHeartFill, RiHeartLine } from "@remixicon/react";
 import clsx from "clsx";
+import type { MouseEvent } from "react";
 
 import { VIEW_MODE } from "pages/CardsPage/constants";
 import { STATUS } from "shared/constants";
@@ -7,8 +8,15 @@ import { STATUS } from "shared/constants";
 import type { ICardProps } from "./interface";
 
 /** Компонент карточки */
-export default function Card({ card, viewMode, onOpenModal }: ICardProps) {
+export default function Card(props: ICardProps) {
+  const { card, viewMode, onOpenModal, onToggleVote } = props;
+
   const status = STATUS[card.status];
+
+  const handleVote = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    onToggleVote(card.id);
+  };
 
   return (
     <article
@@ -41,10 +49,18 @@ export default function Card({ card, viewMode, onOpenModal }: ICardProps) {
         {card.description}
       </p>
       <div className="text-neutral/70 mt-auto flex items-center gap-4 text-xs">
-        <span className="flex items-center gap-1">
-          <RiHeartLine className="size-3.5" />
+        <button
+          type="button"
+          className="group flex cursor-pointer items-center gap-1"
+          onClick={handleVote}
+        >
+          {card.voted ? (
+            <RiHeartFill className="size-3.5 text-violet-500 group-hover:text-violet-300" />
+          ) : (
+            <RiHeartLine className="size-3.5 group-hover:text-violet-500" />
+          )}
           {card.votesCount ?? 0}
-        </span>
+        </button>
         <span className="flex items-center gap-1">
           <RiChat1Line className="size-3.5" />
           {card.commentsCount ?? 0}

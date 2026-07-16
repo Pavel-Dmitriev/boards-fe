@@ -99,7 +99,7 @@ export const useCardsStore = createResourceStore<ICard, ICardsExtraState, ICards
             ...state,
             data: state.data.map((card) => {
               if (card.id === cardId) {
-                return { ...card, votesCount: res.data.votesCount, hasVoted: res.data.voted };
+                return { ...card, votesCount: res.data.votesCount, voted: res.data.voted };
               }
 
               return card;

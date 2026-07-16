@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ru";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { createRoot } from "react-dom/client";
 
 import { App } from "./App";

@@ -35,9 +35,9 @@ export default function CardModal({ card }: ICardModalProps) {
 
   return (
     <FormProvider {...methods}>
-      <div className="mx-1 mb-4 flex items-start justify-between gap-6 border-b border-gray-300 pb-4">
+      <div className="mx-1 mb-4 flex items-start justify-between gap-6 border-b border-gray-300 pb-4 dark:border-white/8">
         <div className="space-y-3">
-          <div className="flex items-center gap-5 text-sm text-gray-500">
+          <div className="flex items-center gap-5 text-sm text-gray-500 dark:text-gray-400">
             <div className="flex items-center gap-2">
               <img src={avatarPlaceholder} alt="" className="size-4.5 rounded-full object-cover" />
               <span>{card.owner.name}</span>
@@ -61,11 +61,11 @@ export default function CardModal({ card }: ICardModalProps) {
         </div>
       </div>
 
-      <section className="mx-1 mb-4 border-b border-gray-300 pb-4">
+      <section className="mx-1 mb-4 border-b border-gray-300 pb-4 dark:border-white/8">
         <h3 className="mb-4 font-semibold">Описание</h3>
 
         {card.description ? (
-          <p className="text-gray-700">{card.description}</p>
+          <p className="text-gray-700 dark:text-gray-300">{card.description}</p>
         ) : (
           <NoData label="Описание отсутствует" size="md" />
         )}

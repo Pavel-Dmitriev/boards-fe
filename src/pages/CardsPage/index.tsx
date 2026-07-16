@@ -23,6 +23,7 @@ export function CardsPage() {
     onOpenModal,
     onCreateCard,
     onGoBack,
+    toggleVote,
   } = useControl();
 
   return (
@@ -68,7 +69,7 @@ export function CardsPage() {
             })}
           >
             {cards.map((card) => (
-              <Card key={card.id} card={card} viewMode={viewMode} onOpenModal={onOpenModal} />
+              <Card key={card.id} card={card} viewMode={viewMode} onOpenModal={onOpenModal} onToggleVote={toggleVote} />
             ))}
           </div>
         </>

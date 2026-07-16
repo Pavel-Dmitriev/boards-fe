@@ -5,4 +5,5 @@ export interface ICardProps {
   card: ICard;
   viewMode: ViewModeType;
   onOpenModal: (card: ICard) => void;
+  onToggleVote: (cardId: string) => Promise<void>;
 }
