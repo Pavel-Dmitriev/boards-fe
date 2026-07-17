@@ -69,7 +69,13 @@ export function CardsPage() {
             })}
           >
             {cards.map((card) => (
-              <Card key={card.id} card={card} viewMode={viewMode} onOpenModal={onOpenModal} onToggleVote={toggleVote} />
+              <Card
+                key={card.id}
+                card={card}
+                viewMode={viewMode}
+                onOpenModal={onOpenModal}
+                onToggleVote={toggleVote}
+              />
             ))}
           </div>
         </>

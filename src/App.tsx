@@ -14,8 +14,14 @@ export function App() {
 
   useEffect(() => {
     checkAuth().then(() => {
-      if (useAuthStore.getState().isAuthenticated) {
+      const { isAuthenticated } = useAuthStore.getState();
+
+      if (isAuthenticated) {
         getProfile();
+      }
+
+      if (window.location.pathname === "/") {
+        window.location.replace(isAuthenticated ? "/rooms" : "/login");
       }
     });
   }, [checkAuth]);
