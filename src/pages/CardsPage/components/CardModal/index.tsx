@@ -80,7 +80,11 @@ export default function CardModal({ card }: ICardModalProps) {
       >
         <TextArea
           {...register("comment")}
-          label={{ children: "Добавить комментарий", hasWrapper: true }}
+          label={{
+            children: "Добавить комментарий",
+            hasWrapper: true,
+          }}
+          placeholder="Введите комментарий"
         />
       </form>
     </FormProvider>

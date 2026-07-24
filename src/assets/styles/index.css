@@ -20,7 +20,7 @@
 
   --color-bg-card: --alpha(var(--color-white) / 3%);
   --color-bg-card-hover: --alpha(var(--color-white) / 6%);
-  --color-bg-input: --alpha(var(--color-white) / 5%);
+  --color-bg-input: #1a1535;
 
   --color-accent: #712fff;
   --color-accent-light: #9382ff;

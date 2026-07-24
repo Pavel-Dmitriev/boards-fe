@@ -34,7 +34,10 @@ export function Label(props: ILabelProps) {
       <label
         {...rest}
         htmlFor={inputId}
-        className={clsx("mb-2 inline-block text-sm text-gray-700", rest?.className)}
+        className={clsx(
+          "mb-2 inline-block text-sm text-gray-700 dark:text-gray-200",
+          rest?.className,
+        )}
       >
         {text}
         {required && <span className="ml-1 text-red-600">*</span>}
@@ -48,8 +51,8 @@ export function Label(props: ILabelProps) {
 
       <div
         className={clsx(
-          "flex max-w-full items-center self-start rounded-lg border border-gray-300 bg-white outline-offset-2 focus-within:outline-1",
-          "has-disabled:border-gray-100 has-disabled:bg-gray-100",
+          "bg-bg-input flex max-w-full items-center self-start rounded-lg border border-gray-300 outline-offset-2 focus-within:outline-1 dark:border-white/10",
+          "has-disabled:border-gray-100 has-disabled:bg-gray-100 dark:has-disabled:border-white/5 dark:has-disabled:bg-white/5",
           {
             "outline-1 outline-red-500": error,
             "outline-purple-600": !error,

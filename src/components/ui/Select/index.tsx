@@ -29,7 +29,7 @@ export function Select<
     ...SELECT_CLASS_NAMES,
     control: (state) =>
       clsx(SELECT_CLASS_NAMES.control(state), {
-        "bg-gray-100!": rest.isDisabled,
+        "bg-gray-100! dark:bg-white/5!": rest.isDisabled,
       }),
   };
 

@@ -34,7 +34,7 @@ export function TextArea(props: ITextAreaProps) {
       <textarea
         id={inputId}
         placeholder={placeholder}
-        className="peer min-h-20 min-w-0 flex-1 resize-none text-sm text-gray-700 outline-none placeholder:text-slate-500 disabled:text-slate-500 disabled:placeholder:text-slate-400"
+        className="peer min-h-20 min-w-0 flex-1 resize-none text-sm text-gray-700 dark:text-gray-200 outline-none placeholder:text-slate-500 disabled:text-slate-500 disabled:placeholder:text-slate-400"
         onInput={handleInput}
         {...rest}
       />

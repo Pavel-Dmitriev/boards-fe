@@ -7,7 +7,7 @@
 
   --color-bg-card: --alpha(var(--color-black) / 2%);
   --color-bg-card-hover: --alpha(var(--color-black) / 4%);
-  --color-bg-input: --alpha(var(--color-black) / 4%);
+  --color-bg-input: var(--color-white);
 
   --color-border: --alpha(var(--color-black) / 8%);
   --color-border-hover: --alpha(var(--color-black) / 15%);

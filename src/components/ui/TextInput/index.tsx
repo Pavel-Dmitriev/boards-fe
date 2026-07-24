@@ -28,7 +28,7 @@ export function TextInput(props: ITextInputProps) {
         type={type}
         id={inputId}
         placeholder={placeholder}
-        className="peer min-w-0 flex-1 text-sm text-gray-700 outline-none placeholder:overflow-hidden placeholder:text-ellipsis placeholder:text-slate-500 disabled:text-slate-500 disabled:placeholder:text-slate-400"
+        className="peer min-w-0 flex-1 text-sm text-gray-700 dark:text-gray-200 outline-none placeholder:overflow-hidden placeholder:text-ellipsis placeholder:text-slate-500 disabled:text-slate-500 disabled:placeholder:text-slate-400"
         {...rest}
       />
     </Label>
