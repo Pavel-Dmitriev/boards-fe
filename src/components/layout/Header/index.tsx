@@ -2,13 +2,12 @@ import { RiLogoutBoxLine, RiMoonLine, RiSunLine, RiUserLine } from "@remixicon/r
 import clsx from "clsx";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
+import { Logo } from "./Logo";
 import { MENU } from "./menu";
 import { Button, Spinner } from "components/ui";
 import { useUsersStore } from "shared/stores";
 import { useAuthStore } from "shared/stores/auth";
 import { useThemeStore } from "shared/stores/theme";
-
-import boards from "assets/boards.avif";
 
 import { useIsDark } from "shared/hooks";
 
@@ -33,8 +32,7 @@ export function Header() {
           to="/rooms"
           className="hover:text-accent dark:hover:text-accent-light flex items-center gap-2"
         >
-          <img src={boards} alt="" className="max-w-10" loading="lazy" />
-          <span className="text-lg font-medium">Доски</span>
+          <Logo />
         </Link>
 
         <nav className="flex items-center gap-6">
