@@ -9,9 +9,4 @@ export const MENU = [
     title: "Мои карточки",
     path: "/cards",
   },
-  {
-    key: "create-card",
-    title: "Создать карточку",
-    path: "/cards/create",
-  },
 ];

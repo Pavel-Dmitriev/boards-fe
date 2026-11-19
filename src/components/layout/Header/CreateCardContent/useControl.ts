@@ -1,5 +1,4 @@
 import { useForm, useWatch } from "react-hook-form";
-import { useNavigate } from "react-router";
 
 import { useBoardsStore, useCardsStore, useRoomsStore } from "shared/stores";
 
@@ -11,10 +10,10 @@ import type { SelectOptionType } from "shared/types/SelectOptionType";
 /**
  * Хук управления формой создания карточки.
  * Содержит всю логику: загрузку данных, сабмит, опции селектов.
+ *
+ * @param onSuccess — колбэк после успешного создания (закрытие модалки и редирект)
  */
-export function useControl() {
-  const navigate = useNavigate();
-
+export function useControl({ onSuccess }: { onSuccess: (roomId: string) => void }) {
   const { data: rooms, getRooms, isLoading: isRoomsLoading } = useRoomsStore();
   const { data: boards, getBoards, isLoading: isBoardsLoading } = useBoardsStore();
 
@@ -59,7 +58,7 @@ export function useControl() {
   const onSubmit = async ({ title, description, board }: IFormData) => {
     await createCard(title, description, String(board?.value));
     reset();
-    navigate(`/rooms/${watchRoom?.value}`);
+    onSuccess(String(watchRoom?.value ?? ""));
   };
 
   return {

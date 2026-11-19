@@ -1,8 +1,10 @@
+import { useRef } from "react";
 import { RiLogoutBoxLine, RiMoonLine, RiSunLine, RiUserLine } from "@remixicon/react";
 import clsx from "clsx";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/shallow";
 
+import { CreateCardContent } from "./CreateCardContent";
 import { Logo } from "./Logo";
 import { MENU } from "./menu";
 import { ProfileContent } from "./ProfileContent";
@@ -14,11 +16,13 @@ import { useThemeStore } from "shared/stores/theme";
 
 import { useIsDark } from "shared/hooks";
 
+/** Шапка приложения: навигация, профиль, создание карточки, тема */
 export function Header() {
+  const keyRef = useRef(0);
   const { isAuthenticated, logout, isLoading: isLoadingUser } = useAuthStore();
   const { profile, isLoading: isLoadingProfile } = useUsersStore();
   const { toggleTheme } = useThemeStore();
-  const { open } = useModalStore(useShallow(({ open }) => ({ open })));
+  const { open, close } = useModalStore(useShallow(({ open, close }) => ({ open, close })));
   const isDark = useIsDark();
   const navigate = useNavigate();
 
@@ -32,6 +36,34 @@ export function Header() {
     open({
       title: "Профиль",
       children: <ProfileContent profile={profile} />,
+    });
+  };
+
+  /** Открывает модалку создания карточки */
+  const handleOpenCreateCard = () => {
+    keyRef.current += 1;
+
+    open({
+      title: "Создать карточку",
+      children: (
+        <CreateCardContent
+          key={keyRef.current}
+          onSuccess={(roomId) => {
+            close();
+            if (roomId) navigate(`/rooms/${roomId}`);
+          }}
+        />
+      ),
+      buttons: (
+        <>
+          <Button type="button" kind="secondary" onClick={close}>
+            Отмена
+          </Button>
+          <Button type="submit" form="create-card-form">
+            Создать
+          </Button>
+        </>
+      ),
     });
   };
 
@@ -69,6 +101,13 @@ export function Header() {
 
               {isAuthenticated ? (
                 <>
+                  <button
+                    type="button"
+                    onClick={handleOpenCreateCard}
+                    className="text-primary cursor-pointer text-sm transition-colors hover:text-purple-500 dark:hover:text-purple-400"
+                  >
+                    Создать карточку
+                  </button>
                   <button
                     type="button"
                     onClick={handleOpenProfile}

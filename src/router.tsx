@@ -6,7 +6,6 @@ import { Frame } from "components/layout/Frame";
 import {
   BoardsPage,
   CardsPage,
-  CreateCardPage,
   LoginPage,
   MyCardsPage,
   RegisterPage,
@@ -56,20 +55,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/cards",
-        children: [
-          {
-            index: true,
-            element: <MyCardsPage />,
-          },
-          {
-            path: "create",
-            element: (
-              <ProtectedRoute>
-                <CreateCardPage />
-              </ProtectedRoute>
-            ),
-          },
-        ],
+        element: <MyCardsPage />,
       },
       { path: "no-access", element: <NoAccess /> },
       { path: "*", element: <NotFound /> },
