@@ -9,7 +9,6 @@ import {
   CreateCardPage,
   LoginPage,
   MyCardsPage,
-  ProfilePage,
   RegisterPage,
   RoomsPage,
 } from "./pages";
@@ -71,14 +70,6 @@ export const router = createBrowserRouter([
             ),
           },
         ],
-      },
-      {
-        path: "/profile",
-        element: (
-          <ProtectedRoute>
-            <ProfilePage />
-          </ProtectedRoute>
-        ),
       },
       { path: "no-access", element: <NoAccess /> },
       { path: "*", element: <NotFound /> },

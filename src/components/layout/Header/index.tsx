@@ -1,10 +1,13 @@
 import { RiLogoutBoxLine, RiMoonLine, RiSunLine, RiUserLine } from "@remixicon/react";
 import clsx from "clsx";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useShallow } from "zustand/shallow";
 
 import { Logo } from "./Logo";
 import { MENU } from "./menu";
+import { ProfileContent } from "./ProfileContent";
 import { Button, Spinner } from "components/ui";
+import { useModalStore } from "components/ui/Modal/store";
 import { useUsersStore } from "shared/stores";
 import { useAuthStore } from "shared/stores/auth";
 import { useThemeStore } from "shared/stores/theme";
@@ -15,12 +18,21 @@ export function Header() {
   const { isAuthenticated, logout, isLoading: isLoadingUser } = useAuthStore();
   const { profile, isLoading: isLoadingProfile } = useUsersStore();
   const { toggleTheme } = useThemeStore();
+  const { open } = useModalStore(useShallow(({ open }) => ({ open })));
   const isDark = useIsDark();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logout();
     navigate("/login");
+  };
+
+  /** Открывает модалку с данными профиля */
+  const handleOpenProfile = () => {
+    open({
+      title: "Профиль",
+      children: <ProfileContent profile={profile} />,
+    });
   };
 
   const menu = !isAuthenticated ? Array(MENU[0]) : MENU;
@@ -57,13 +69,15 @@ export function Header() {
 
               {isAuthenticated ? (
                 <>
-                  <Link
-                    to="/profile"
-                    className="text-neutral/70! flex items-center gap-1 text-sm transition-colors hover:text-white"
+                  <button
+                    type="button"
+                    onClick={handleOpenProfile}
+                    title="Показать профиль"
+                    className="text-neutral! flex cursor-pointer items-center gap-1 text-sm transition-colors hover:text-white"
                   >
                     <RiUserLine className="h-4 w-4" />
                     {profile?.name}
-                  </Link>
+                  </button>
                   <Button
                     onClick={handleLogout}
                     size="sm"
