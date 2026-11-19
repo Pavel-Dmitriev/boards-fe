@@ -71,7 +71,7 @@ export default function CardModal({ card }: ICardModalProps) {
         )}
       </section>
 
-      <CommentsSection comments={comments} isLoading={isCommentsLoading} />
+      <CommentsSection comments={comments} isLoading={isCommentsLoading} cardId={card.id} />
 
       <form
         id="card-modal-form"

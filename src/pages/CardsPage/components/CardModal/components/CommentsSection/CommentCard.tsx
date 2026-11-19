@@ -1,33 +1,81 @@
 import dayjs from "dayjs";
 
+import ReplyForm from "./ReplyForm";
+
 import avatarPlaceholder from "assets/avatar.avif";
 
-import type { IComment } from "shared/interfaces";
+import type { ICommentCardProps } from "./interface";
 
 /** Компонент карточки комментария */
-export default function CommentCard({ comment }: { comment: IComment }) {
+export default function CommentCard(props: ICommentCardProps) {
+  const {
+    comment,
+    replies,
+    activeReplyId,
+    onStartReply,
+    onCancelReply,
+    onSubmitReply,
+    getReplies,
+  } = props;
+  const { id, content, author, created_at: createdAt } = comment;
+  const authorName = author?.name ?? "";
+  const authorAvatar = author?.avatar;
+  const isReplying = activeReplyId === id;
+
   return (
-    <article
-      key={comment.id}
-      className="rounded-xl border border-violet-200 p-5 shadow-sm dark:border-white/8"
-    >
+    <article className="rounded-xl border border-violet-200 p-5 shadow-sm dark:border-white/8">
       <div className="flex gap-4">
-        {comment.author?.avatar ? (
-          <img src={comment.author.avatar} className="h-10 w-10 rounded-full" />
+        {authorAvatar ? (
+          <img src={authorAvatar} alt="" className="h-10 w-10 rounded-full" />
         ) : (
           <img src={avatarPlaceholder} alt="" className="h-10 w-10 rounded-full object-cover" />
         )}
 
         <div className="flex-1">
           <div className="mb-3 flex items-center gap-3 text-sm">
-            <span className="font-semibold">{comment.author.name}</span>
+            <span className="font-semibold">{authorName}</span>
 
-            <span className="text-gray-400 dark:text-gray-500">
-              {dayjs(comment.created_at).fromNow()}
-            </span>
+            <span className="text-gray-400 dark:text-gray-500">{dayjs(createdAt).fromNow()}</span>
           </div>
 
-          <p className="text-gray-700 dark:text-gray-300">{comment.content}</p>
+          <p className="text-gray-700 dark:text-gray-300">{content}</p>
+
+          <button
+            type="button"
+            disabled={isReplying}
+            onClick={() => onStartReply(id)}
+            className="mt-3 cursor-pointer text-sm font-medium text-violet-600 transition-colors hover:text-violet-800 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:text-violet-600 dark:text-violet-400 dark:hover:text-violet-200 dark:disabled:hover:text-violet-400"
+          >
+            Ответить
+          </button>
+
+          {isReplying && (
+            <ReplyForm
+              onSubmit={(replyContent) => onSubmitReply(id, replyContent)}
+              onCancel={onCancelReply}
+            />
+          )}
+
+          {replies.length > 0 && (
+            <div className="mt-4 space-y-3 border-l-2 border-violet-200 pl-4 dark:border-white/10">
+              {replies.map((reply) => {
+                const { id: replyId } = reply;
+
+                return (
+                  <CommentCard
+                    key={replyId}
+                    comment={reply}
+                    replies={getReplies?.(replyId) ?? []}
+                    activeReplyId={activeReplyId}
+                    onStartReply={onStartReply}
+                    onCancelReply={onCancelReply}
+                    onSubmitReply={onSubmitReply}
+                    getReplies={getReplies}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </article>
