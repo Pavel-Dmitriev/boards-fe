@@ -1,6 +1,7 @@
 import CommentCard from "./CommentCard";
-import { useCommentsSection } from "./useCommentsSection";
 import { Spinner } from "components/ui";
+
+import { useCommentsSection } from "./useCommentsSection";
 
 import type { ICommentsSectionProps } from "./interface";
 
