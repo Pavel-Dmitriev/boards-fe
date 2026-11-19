@@ -3,14 +3,7 @@ import { createBrowserRouter } from "react-router";
 
 import { Frame } from "components/layout/Frame";
 
-import {
-  BoardsPage,
-  CardsPage,
-  LoginPage,
-  MyCardsPage,
-  RegisterPage,
-  RoomsPage,
-} from "./pages";
+import { BoardsPage, CardsPage, LoginPage, RegisterPage, RoomsPage } from "./pages";
 import { ProtectedRoute } from "components/ProtectedRoute";
 
 const NoAccess = lazy(() => import("./pages/Service/NoAccess"));
@@ -53,10 +46,10 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      {
-        path: "/cards",
-        element: <MyCardsPage />,
-      },
+      // {
+      //   path: "/cards",
+      //   element: <MyCardsPage />,
+      // },
       { path: "no-access", element: <NoAccess /> },
       { path: "*", element: <NotFound /> },
     ],

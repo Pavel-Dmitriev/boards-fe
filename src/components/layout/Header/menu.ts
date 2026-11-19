@@ -4,9 +4,10 @@ export const MENU = [
     title: "Комнаты",
     path: "rooms",
   },
-  {
-    key: "cards",
-    title: "Мои карточки",
-    path: "/cards",
-  },
+  // Временно скрыто
+  // {
+  //   key: "cards",
+  //   title: "Мои карточки",
+  //   path: "/cards",
+  // },
 ];
